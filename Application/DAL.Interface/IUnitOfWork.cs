@@ -7,8 +7,13 @@ using DAL.Interface.Entity;
 
 namespace DAL.Interface
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
-        IRepository<Client> ClientRepository { get; set; }
+        void Close();
+        IRepository<Client> Clients { get; }
+        IRepository<Town> Towns { get; }
+        IRepository<Citizenship> Citizenships { get; }
+        IRepository<MartialStatus> MartialStatuses { get; }
+        IRepository<Disability> DisabilityStatuses { get; }
     }
 }

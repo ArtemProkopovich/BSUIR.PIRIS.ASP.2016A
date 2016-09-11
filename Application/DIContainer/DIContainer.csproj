@@ -60,7 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="ResolverConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -68,6 +67,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BL.Interface\BL.Interface.csproj">
+      <Project>{5b57ed88-a604-4616-848d-54120db35d36}</Project>
+      <Name>BL.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BL\BL.csproj">
+      <Project>{3817ed0c-cbdf-428c-a136-c4dd8aeffccc}</Project>
+      <Name>BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DAL.Interface\DAL.Interface.csproj">
       <Project>{45c2e6f4-1e8e-444d-b936-ff3ef6b64565}</Project>
       <Name>DAL.Interface</Name>

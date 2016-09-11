@@ -40,7 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DalException.cs" />
+    <Compile Include="Entity\Citizenship.cs" />
     <Compile Include="Entity\Client.cs" />
+    <Compile Include="Entity\Disability.cs" />
+    <Compile Include="Entity\MartialStatus.cs" />
+    <Compile Include="Entity\Town.cs" />
+    <Compile Include="IConfigurationManager.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />

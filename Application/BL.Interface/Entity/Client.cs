@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Interface.Entity
+namespace BL.Interface.Entity
 {
     public class Client : IEntity
     {
@@ -20,15 +20,15 @@ namespace DAL.Interface.Entity
         public DateTime IssueDate { get; set; }
         public string IdentificationNumber { get; set; }
         public string BirthPlace { get; set; }
-        public int ResidenceActualPlaceId { get; set; }
+        public string ResidenceActualPlace { get; set; }
         public string ResidenceActualAddress { get; set; }
         public string HomePhoneNumber { get; set; }
         public string MobilePhoneNumber { get; set; }
         public string Email { get; set; }
         public string ResidenceAddress { get; set; }
-        public int MaritalStatusId { get; set; }
-        public int CitizenshipId { get; set; }
-        public int DisabilityId { get; set; }
+        public string MaritalStatus { get; set; }
+        public string Citizenship { get; set; }
+        public string Disability { get; set; }
         public bool Pensioner { get; set; }
         public decimal MonthlyIncome { get; set; }
     }
