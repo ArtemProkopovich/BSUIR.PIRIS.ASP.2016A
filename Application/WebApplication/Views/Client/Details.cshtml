@@ -43,11 +43,18 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Male)
+            @Html.DisplayNameFor(model => model.Gender)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Male)
+            @if (Model.Gender)
+            {
+                <text>Male</text>
+            }
+            else
+            {
+                <text>Female</text>
+            }
         </dd>
 
         <dt>
@@ -159,7 +166,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Pensioner)
+            @if (Model.Pensioner)
+            {
+                <text>Pensioner</text>
+            }
+            else
+            {
+                <text>Not pensioner</text>
+            }
         </dd>
 
         <dt>

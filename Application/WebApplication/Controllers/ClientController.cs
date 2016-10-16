@@ -53,7 +53,7 @@ namespace WebApplication.Controllers
                 }
                 catch (ValidationException ex)
                 {
-                    ModelState.AddModelError("key", ex);
+                    ModelState.AddModelError("", ex.Message);
                     return View(repository.GetLists(client));
                 }
                 catch (Exception ex)
@@ -81,13 +81,12 @@ namespace WebApplication.Controllers
             {
                 try
                 {
-                    // TODO: Add update logic here
                     repository.Update(client);
                     return RedirectToAction("Details", new {id = client.Id});
                 }
                 catch (ValidationException ex)
                 {
-                    ModelState.AddModelError("key", ex);
+                    ModelState.AddModelError("", ex.Message);
                     return View(repository.GetLists(client));
                 }
                 catch(Exception ex)

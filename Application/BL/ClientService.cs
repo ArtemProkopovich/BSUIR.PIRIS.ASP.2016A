@@ -44,6 +44,7 @@ namespace BL
 
         public void Update(Client entity)
         {
+            ValidateClient(entity);
             uof.Clients.Update(MapClientToDalClient(entity));
         }
 
@@ -51,9 +52,6 @@ namespace BL
         {
             var clients = uof.Clients.GetAll().ToList();
             clients.RemoveAll(e => e.Id == entity.Id);
-            if (clients.Any(
-                e => e.Surname == entity.Surname && e.Name == entity.Name && e.FatherName == entity.FatherName))
-                throw new ValidationException("Cannot be two clients with same names.");
             if (clients.Any(e => e.PassportNumber == entity.PassportNumber && e.PassportSeries == entity.PassportSeries))
                 throw new ValidationException("Cannot be two clients with same passport data");
             if (clients.Any(e => e.IdentificationNumber == entity.IdentificationNumber))
