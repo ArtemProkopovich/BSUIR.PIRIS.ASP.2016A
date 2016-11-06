@@ -7,7 +7,7 @@ using BL.Interface.Entity;
 
 namespace BL.Interface
 {
-    public interface IService<TEntity> : IDisposable where TEntity : IEntity
+    public interface IService<TEntity> where TEntity : IEntity
     {
         int Add(TEntity entity);
         bool Delete(int id);

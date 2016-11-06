@@ -30,7 +30,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,22 +54,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CitizenshipRepository.cs" />
-    <Compile Include="ClientRepository.cs" />
-    <Compile Include="ConfigurationManager.cs" />
-    <Compile Include="DisabilityRepository.cs" />
-    <Compile Include="MartialStatusRepository.cs" />
+    <Compile Include="ClientRepositories\AccountRepository.cs" />
+    <Compile Include="ClientRepositories\CitizenshipRepository.cs" />
+    <Compile Include="ClientRepositories\ClientRepository.cs" />
+    <Compile Include="Operation\CreditCardRepository.cs" />
+    <Compile Include="Operation\CreditRepository.cs" />
+    <Compile Include="Operation\DepositRepository.cs" />
+    <Compile Include="Operation\DisabilityRepository.cs" />
+    <Compile Include="ClientRepositories\MartialStatusRepository.cs" />
+    <Compile Include="Plan\PlanOfAccountRepository.cs" />
+    <Compile Include="Plan\PlanOfCreditRepository.cs" />
+    <Compile Include="Plan\PlanOfDepositRepository.cs" />
+    <Compile Include="ClientRepositories\TownRepository.cs" />
+    <Compile Include="Operation\TransactionRepository.cs" />
+    <Compile Include="EFUnitOfWork.cs" />
+    <Compile Include="Obsolete\CitizenshipRepository.cs" />
+    <Compile Include="Obsolete\ClientRepository.cs" />
+    <Compile Include="Obsolete\ConfigurationManager.cs" />
+    <Compile Include="Obsolete\DisabilityRepository.cs" />
+    <Compile Include="Obsolete\MartialStatusRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="TownRepository.cs" />
-    <Compile Include="UnitOfWork.cs" />
+    <Compile Include="Obsolete\Repository.cs" />
+    <Compile Include="Obsolete\TownRepository.cs" />
+    <Compile Include="Obsolete\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL.Interface\DAL.Interface.csproj">
       <Project>{45c2e6f4-1e8e-444d-b936-ff3ef6b64565}</Project>
       <Name>DAL.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ORMLibrary\ORMLibrary.csproj">
+      <Project>{7012CAC4-D561-481A-89A5-5523A8DDC421}</Project>
+      <Name>ORMLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

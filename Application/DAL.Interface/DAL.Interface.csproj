@@ -30,7 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,16 +50,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DalException.cs" />
+    <Compile Include="Entity\Account.cs" />
     <Compile Include="Entity\Citizenship.cs" />
     <Compile Include="Entity\Client.cs" />
+    <Compile Include="Entity\Credit.cs" />
+    <Compile Include="Entity\CreditCard.cs" />
+    <Compile Include="Entity\Deposit.cs" />
     <Compile Include="Entity\Disability.cs" />
-    <Compile Include="Entity\MartialStatus.cs" />
+    <Compile Include="Entity\MaritalStatus.cs" />
+    <Compile Include="Entity\PlanOfAccount.cs" />
+    <Compile Include="Entity\PlanOfCredit.cs" />
+    <Compile Include="Entity\PlanOfDeposit.cs" />
     <Compile Include="Entity\Town.cs" />
+    <Compile Include="Entity\Transaction.cs" />
     <Compile Include="IConfigurationManager.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

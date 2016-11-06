@@ -7,13 +7,23 @@ using DAL.Interface.Entity;
 
 namespace DAL.Interface
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
-        void Close();
         IRepository<Client> Clients { get; }
         IRepository<Town> Towns { get; }
         IRepository<Citizenship> Citizenships { get; }
-        IRepository<MartialStatus> MartialStatuses { get; }
+        IRepository<MaritalStatus> MaritalStatuses { get; }
         IRepository<Disability> DisabilityStatuses { get; }
+
+        IRepository<Account> Accounts { get; }
+        IRepository<Credit> Credits { get; }
+        IRepository<CreditCard> CreditCards { get; }
+        IRepository<Deposit> Deposits { get; }
+        IRepository<Transaction> Transactions { get; }
+
+        IRepository<PlanOfAccount> PlanOfAccounts { get; }
+        IRepository<PlanOfCredit> PlanOfCredits { get; }
+        IRepository<PlanOfDeposit> PlanOfDeposits { get; }
+        void Save();
     }
 }

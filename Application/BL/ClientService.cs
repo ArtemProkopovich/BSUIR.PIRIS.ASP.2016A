@@ -68,7 +68,7 @@ namespace BL
             int disId = uof.DisabilityStatuses.GetAll().FirstOrDefault(e => e.Status == client.Disability)?.Id ??
                         uof.DisabilityStatuses.Add(new Disability() { Status = client.Disability });
             int msId = uof.MartialStatuses.GetAll().FirstOrDefault(e => e.Status == client.MaritalStatus)?.Id ??
-                       uof.MartialStatuses.Add(new MartialStatus() {Status = client.MaritalStatus});
+                       uof.MartialStatuses.Add(new MaritalStatus() {Status = client.MaritalStatus});
             var config =
                 new MapperConfiguration(cfg =>
                     cfg.CreateMap<Client, DalClient>()
@@ -118,33 +118,5 @@ namespace BL
         {
             return uof.DisabilityStatuses.GetAll().Select(e => e.Status);
         }
-
-        #region IDisposable Support
-        private bool disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    uof.Dispose();
-                }
-                disposedValue = true;
-            }
-        }
-
-        ~ClientService()
-        {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
     }
 }
