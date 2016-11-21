@@ -148,9 +148,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\database.mdf" />
-    <Content Include="App_Data\database_log.ldf">
-      <DependentUpon>database.mdf</DependentUpon>
+    <Content Include="App_Data\db.mdf" />
+    <Content Include="App_Data\db_log.ldf">
+      <DependentUpon>db.mdf</DependentUpon>
     </Content>
     <Content Include="App_Data\delete_client.sql" />
     <Content Include="App_Data\init_db.sql" />
@@ -209,7 +209,9 @@
     <Content Include="Views\Client\Edit.cshtml" />
     <Content Include="Views\Client\Delete.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Plan\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
@@ -217,10 +219,6 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BL.Interface\BL.Interface.csproj">
-      <Project>{5b57ed88-a604-4616-848d-54120db35d36}</Project>
-      <Name>BL.Interface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DIContainer\DIContainer.csproj">
       <Project>{fcda08d0-d80d-4567-8202-a68faa75889d}</Project>
       <Name>DIContainer</Name>

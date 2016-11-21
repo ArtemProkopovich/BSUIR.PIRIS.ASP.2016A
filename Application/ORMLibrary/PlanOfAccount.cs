@@ -13,8 +13,10 @@ namespace ORMLibrary
         public PlanOfAccount()
         {
             Accounts = new HashSet<Account>();
-            PlanOfCredits = new HashSet<PlanOfCredit>();
-            PlanOfDeposits = new HashSet<PlanOfDeposit>();
+            MainAccountPlanOfCredits = new HashSet<PlanOfCredit>();
+            PercentAccountPlanOfCredits = new HashSet<PlanOfCredit>();
+            MainAccountPlanOfDeposits = new HashSet<PlanOfDeposit>();
+            PercentAccountPlanOfDeposits = new HashSet<PlanOfDeposit>();
         }
 
         public int Id { get; set; }
@@ -35,9 +37,15 @@ namespace ORMLibrary
         public virtual ICollection<Account> Accounts { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlanOfCredit> PlanOfCredits { get; set; }
+        public virtual ICollection<PlanOfCredit> MainAccountPlanOfCredits { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlanOfDeposit> PlanOfDeposits { get; set; }
+        public virtual ICollection<PlanOfCredit> PercentAccountPlanOfCredits { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PlanOfDeposit> MainAccountPlanOfDeposits { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PlanOfDeposit> PercentAccountPlanOfDeposits { get; set; }
     }
 }

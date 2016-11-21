@@ -61,30 +61,5 @@ namespace WebApplication.Models.DataModels
             Mapper.Initialize(config => config.CreateMap<BlClient, Client>());
             return Mapper.Map<Client>(blClient);
         }
-
-        private bool disposedValue = false; // Для определения избыточных вызовов
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    service.Dispose();
-                }
-                disposedValue = true;
-            }
-        }
-
-         ~ClientData()
-        {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
     }
 }

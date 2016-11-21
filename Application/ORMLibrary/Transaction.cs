@@ -18,10 +18,8 @@ namespace ORMLibrary
         [Column(TypeName = "money")]
         public decimal Amount { get; set; }
 
-        public DateTime Time { get; set; }
+        public virtual Account DebetAccount { get; set; }
 
-        public virtual Account Account { get; set; }
-
-        public virtual Account Account1 { get; set; }
+        public virtual Account CreditAccount { get; set; }
     }
 }

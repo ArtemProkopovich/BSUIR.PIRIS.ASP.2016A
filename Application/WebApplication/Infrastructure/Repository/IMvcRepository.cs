@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApplication.Infrastructure.Repository
 {
-    public interface IMvcRepository<TEntity> : IDisposable
+    public interface IMvcRepository<TEntity>
     {
         int Create(TEntity entity);
         TEntity Get(int id);

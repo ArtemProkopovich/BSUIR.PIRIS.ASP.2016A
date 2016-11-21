@@ -13,7 +13,6 @@ namespace ORMLibrary
         public PlanOfDeposit()
         {
             Deposits = new HashSet<Deposit>();
-            PlanOfAccounts = new HashSet<PlanOfAccount>();
         }
 
         public int Id { get; set; }
@@ -22,8 +21,7 @@ namespace ORMLibrary
         [StringLength(50)]
         public string Name { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime Period { get; set; }
+        public int BankDayPeriod { get; set; }
 
         public double Percent { get; set; }
 
@@ -32,10 +30,15 @@ namespace ORMLibrary
         [Column(TypeName = "money")]
         public decimal? MinAmount { get; set; }
 
+        public int MainAccountPlanId { get; set; }
+
+        public int PercentAccountPlanId { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Deposit> Deposits { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PlanOfAccount> PlanOfAccounts { get; set; }
+        public virtual PlanOfAccount MainPlanOfAccount { get; set; }
+
+        public virtual PlanOfAccount PercentPlanOfAccount { get; set; }
     }
 }

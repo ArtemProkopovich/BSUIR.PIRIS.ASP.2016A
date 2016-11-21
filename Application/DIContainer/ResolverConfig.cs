@@ -3,14 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BL;
-using BL.Interface;
-using DAL;
-using DAL.Interface;
-using DAL.Interface.Entity;
-using DAL.Obsolete;
 using Ninject;
 using Ninject.Web.Common;
+using ORMLibrary;
 
 namespace DIContainer
 {
@@ -30,24 +25,20 @@ namespace DIContainer
         {
             if (isWeb)
             {
-                kernel.Bind<IConfigurationManager>().To<ConfigurationManager>().InRequestScope();
-                kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();              
+                kernel.Bind<DatabaseContext>().To<DatabaseContext>().InRequestScope();
             }
             else
             {
-                kernel.Bind<IConfigurationManager>().To<ConfigurationManager>().InSingletonScope();
-                kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InSingletonScope();
+                kernel.Bind<DatabaseContext>().To<DatabaseContext>().InSingletonScope();
             }
+
             #region services
-            kernel.Bind<IClientService>().To<ClientService>();
             #endregion
+
             #region repositories 
-            kernel.Bind<IRepository<Client>>().To<ClientRepository>();
-            kernel.Bind<IRepository<Citizenship>>().To<CitizenshipRepository>();
-            kernel.Bind<IRepository<Disability>>().To<DisabilityRepository>();
-            kernel.Bind<IRepository<MaritalStatus>>().To<MartialStatusRepository>();
-            kernel.Bind<IRepository<Town>>().To<TownRepository>();
             #endregion
+
+
         }
     }
 }

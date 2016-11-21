@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
@@ -47,6 +55,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -66,24 +75,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BL.Interface\BL.Interface.csproj">
-      <Project>{5b57ed88-a604-4616-848d-54120db35d36}</Project>
-      <Name>BL.Interface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BL\BL.csproj">
       <Project>{3817ed0c-cbdf-428c-a136-c4dd8aeffccc}</Project>
       <Name>BL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAL.Interface\DAL.Interface.csproj">
-      <Project>{45c2e6f4-1e8e-444d-b936-ff3ef6b64565}</Project>
-      <Name>DAL.Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{5a2fc77c-6903-4768-9706-f669c1aadd92}</Project>
-      <Name>DAL</Name>
+    <ProjectReference Include="..\ORMLibrary\ORMLibrary.csproj">
+      <Project>{7012cac4-d561-481a-89a5-5523a8ddc421}</Project>
+      <Name>ORMLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -9,32 +9,29 @@ namespace ORMLibrary
     [Table("Deposit")]
     public partial class Deposit
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Deposit()
-        {
-            Accounts = new HashSet<Account>();
-        }
-
         public int Id { get; set; }
 
         public int ClientId { get; set; }
 
         public int PlanId { get; set; }
 
-        [Column(TypeName = "money")]
-        public decimal StartDate { get; set; }
+        public int StartDate { get; set; }
 
-        [Column(TypeName = "money")]
-        public decimal EndDate { get; set; }
+        public int EndDate { get; set; }
+
+        public int MainAccountId { get; set; }
+
+        public int PercentAccountId { get; set; }
 
         [Column(TypeName = "money")]
         public decimal Amount { get; set; }
 
+        public virtual Account MainAccount { get; set; }
+
+        public virtual Account PercentAccount { get; set; }
+
         public virtual Client Client { get; set; }
 
         public virtual PlanOfDeposit PlanOfDeposit { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Account> Accounts { get; set; }
     }
 }

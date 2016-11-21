@@ -12,10 +12,12 @@ namespace ORMLibrary
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Account()
         {
-            Transactions = new HashSet<Transaction>();
-            Transactions1 = new HashSet<Transaction>();
-            Credits = new HashSet<Credit>();
-            Deposits = new HashSet<Deposit>();
+            MainAccountCredits = new HashSet<Credit>();
+            PercentAccountCredits = new HashSet<Credit>();
+            MainAccountDeposits = new HashSet<Deposit>();
+            PercentAccountDeposits = new HashSet<Deposit>();
+            DebitTransactions = new HashSet<Transaction>();
+            CreditTransactions = new HashSet<Transaction>();
         }
 
         public int Id { get; set; }
@@ -38,15 +40,21 @@ namespace ORMLibrary
         public virtual PlanOfAccount PlanOfAccount { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Credit> MainAccountCredits { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction> Transactions1 { get; set; }
+        public virtual ICollection<Credit> PercentAccountCredits { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Credit> Credits { get; set; }
+        public virtual ICollection<Deposit> MainAccountDeposits { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Deposit> Deposits { get; set; }
+        public virtual ICollection<Deposit> PercentAccountDeposits { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transaction> DebitTransactions { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transaction> CreditTransactions { get; set; }
     }
 }
