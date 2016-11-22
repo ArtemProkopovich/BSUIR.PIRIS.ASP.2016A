@@ -10,7 +10,7 @@ namespace BL.Services.Transaction
 {
     public interface ITransactionService
     {
-        void CommitTransaction(AccountModel debitAccount, AccountModel creditAccount, decimal amount);
+        void CommitTransaction(int debitAccountId, int creditAccountId, decimal amount);
         IEnumerable<TransactionModel> GetAll();
         IEnumerable<TransactionModel> GetAll(int accountId);
         IEnumerable<TransactionModel> GetAllByDay(int bankDayNumber);

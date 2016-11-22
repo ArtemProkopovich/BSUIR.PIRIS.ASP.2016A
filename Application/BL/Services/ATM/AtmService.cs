@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using BL.Services.Credit.Models;
 using AppContext = ORMLibrary.AppContext;
 
@@ -16,7 +17,10 @@ namespace BL.Services.ATM
 
         public CreditModel LoginUser(string creditNumber, string pin)
         {
-            throw new NotImplementedException();
+            var credit =
+                Context.Credits.FirstOrDefault(
+                    e => e.MainAccount.AccountNumber == creditNumber && e.CreditCardPin == pin);
+            return Mapper.Map<ORMLibrary.Credit, CreditModel>(credit);
         }
     }
 }
