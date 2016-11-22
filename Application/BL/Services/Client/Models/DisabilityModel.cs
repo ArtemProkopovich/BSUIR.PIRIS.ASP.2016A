@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace BL.Services.Client.Models
 {
-    public class MaritalStatus
+    public class DisabilityModel
     {
+        public int Id { get; set; }
+        public string Status { get; set; }
     }
 }

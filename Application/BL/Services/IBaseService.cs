@@ -7,7 +7,7 @@ namespace BL.Services
         protected AppContext Context { get; set; }
         protected BaseService(AppContext context)
         {
-            this.Context = context;
+            Context = context;
         }
     }
 }

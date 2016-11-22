@@ -92,7 +92,7 @@ namespace ORMLibrary
 
         public virtual Disability Disability { get; set; }
 
-        public virtual MartialStatus MartialStatu { get; set; }
+        public virtual MartialStatus MartialStatus { get; set; }
 
         public virtual Town Town { get; set; }
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ninject;
 using Ninject.Web.Common;
-using ORMLibrary;
+using AppContext = ORMLibrary.AppContext;
 
 namespace DIContainer
 {
@@ -25,11 +25,11 @@ namespace DIContainer
         {
             if (isWeb)
             {
-                kernel.Bind<DatabaseContext>().To<DatabaseContext>().InRequestScope();
+                kernel.Bind<AppContext>().To<AppContext>().InRequestScope();
             }
             else
             {
-                kernel.Bind<DatabaseContext>().To<DatabaseContext>().InSingletonScope();
+                kernel.Bind<AppContext>().To<AppContext>().InSingletonScope();
             }
 
             #region services

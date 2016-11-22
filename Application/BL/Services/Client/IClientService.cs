@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using BL.Services.Client.Models;
 
 namespace BL.Services.Client
 {
     public interface IClientService
     {
-        Models.ClientModel Add(Models.ClientModel client);
-        IEnumerable<Models.ClientModel> Get(int id);
-        Models.ClientModel GetAll();
+        ClientModel Add(ClientModel client);
+        IEnumerable<ClientModel> GetAll();
+        ClientModel Get(int id);
         void Delete(int id);
-        void Update(Models.ClientModel client);
+        void Update(ClientModel client);
     }
 }

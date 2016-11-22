@@ -183,7 +183,7 @@ namespace ORMLibrary
 
             modelBuilder.Entity<MartialStatus>()
                 .HasMany(e => e.Clients)
-                .WithRequired(e => e.MartialStatu)
+                .WithRequired(e => e.MartialStatus)
                 .HasForeignKey(e => e.MaritalStatusId)
                 .WillCascadeOnDelete(false);
 

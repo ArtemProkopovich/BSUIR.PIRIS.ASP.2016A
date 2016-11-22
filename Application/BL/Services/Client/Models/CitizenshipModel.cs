@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace BL.Services.Client.Models
 {
-    public class Town
+    public class CitizenshipModel
     {
+        public int Id { get; set; }
+        public string Country { get; set; }
     }
 }

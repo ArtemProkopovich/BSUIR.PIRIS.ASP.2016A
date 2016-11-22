@@ -58,7 +58,7 @@
     <Compile Include="Services\ATM\IAtmService.cs" />
     <Compile Include="Services\Client\ClientService.cs" />
     <Compile Include="Services\Client\IClientService.cs" />
-    <Compile Include="Services\Client\Models\Citizenship.cs" />
+    <Compile Include="Services\Client\Models\CitizenshipModel.cs" />
     <Compile Include="Services\Client\Models\ClientModel.cs" />
     <Compile Include="Services\Account\AccountService.cs" />
     <Compile Include="Services\Account\IAccountService.cs" />
@@ -66,9 +66,14 @@
     <Compile Include="Services\Account\Models\AccountModel.cs" />
     <Compile Include="Services\Account\Models\PlanOfAccountModel.cs" />
     <Compile Include="Services\Account\PlanOfAccountService.cs" />
-    <Compile Include="Services\Client\Models\Disability.cs" />
-    <Compile Include="Services\Client\Models\MaritalStatus.cs" />
-    <Compile Include="Services\Client\Models\Town.cs" />
+    <Compile Include="Services\Client\Models\DisabilityModel.cs" />
+    <Compile Include="Services\Client\Models\MaritalStatusModel.cs" />
+    <Compile Include="Services\Client\Models\TownModel.cs" />
+    <Compile Include="Services\Client\Models\ValidationException.cs" />
+    <Compile Include="Services\Common\BankService.cs" />
+    <Compile Include="Services\Common\IBankService.cs" />
+    <Compile Include="Services\Common\Model\ServiceException.cs" />
+    <Compile Include="Services\Common\Model\SystemVariableModel.cs" />
     <Compile Include="Services\Credit\CreditService.cs" />
     <Compile Include="Services\Credit\ICreditService.cs" />
     <Compile Include="Services\Credit\Models\CreditModel.cs" />

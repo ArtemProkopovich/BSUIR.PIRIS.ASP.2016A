@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BL.Interface;
 using WebApplication.Infrastructure.Repository;
 using WebApplication.Models.DataModels;
 using WebApplication.Models.ViewModels;
-using BlClient =  BL.Interface.Entity.Client;
 
 namespace WebApplication.Controllers
 {
