@@ -12,8 +12,8 @@ namespace BL.Services.Credit
         void Create(CreditModel credit);
         CreditModel Get(int id);
         IEnumerable<CreditModel> GetAll();
+        PlanOfPaymentModel GetPaymentSchedule();
         void CloseBankDay();
-
         void CloseCredit(int id);
     }
 }

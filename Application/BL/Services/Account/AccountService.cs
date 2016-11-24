@@ -11,9 +11,6 @@ namespace BL.Services.Account
 {
     public class AccountService : BaseService, IAccountService
     {
-        [Inject]
-        public IPlanOfAccountService PlanService { get; set; }
-
         public AccountService(ORMLibrary.AppContext context) : base(context)
         {
             if (!Context.Accounts.Any())
@@ -24,7 +21,7 @@ namespace BL.Services.Account
 
         public AccountModel Create(AccountModel account, ClientModel client)
         {
-            var plan = PlanService.GetPlanOfAccountById(account.PlanId);
+            var plan = Context.PlanOfAccounts.FirstOrDefault(e => e.Id == account.PlanId);
             ORMLibrary.Account dbAccount = new ORMLibrary.Account()
             {
                 AccountNumber = GenerateAccountNumber(plan.AccountNumber, client),
@@ -60,7 +57,7 @@ namespace BL.Services.Account
                 Balance = credit - debit,
                 CreditValue = credit,
                 DebitValue = debit,
-                PlanOfAccount = PlanService.GetPlanOfAccountByNumber(accountPlanNumber),
+                PlanOfAccount = Context.PlanOfAccounts.FirstOrDefault(e => e.AccountNumber == accountPlanNumber),
                 AccountNumber = GenerateAccountNumber(accountPlanNumber, null)
             };
             return account;

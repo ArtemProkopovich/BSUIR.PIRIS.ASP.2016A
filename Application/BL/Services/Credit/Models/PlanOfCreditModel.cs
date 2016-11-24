@@ -17,8 +17,8 @@ namespace BL.Services.Credit.Models
         public double Percent { get; set; }
         public bool Anuity { get; set; }
         public decimal? MinAmount { get; set; }
-        public int MainAccountId { get; set; }
-        public int PercentAccountId { get; set; }
+        public int MainAccountPlanId { get; set; }
+        public int PercentAccountPlanId { get; set; }
         public virtual PlanOfAccountModel MainPlanOfAccount { get; set; }
         public virtual PlanOfAccountModel PercentPlanOfAccount { get; set; }
     }

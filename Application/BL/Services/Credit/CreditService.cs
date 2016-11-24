@@ -29,6 +29,11 @@ namespace BL.Services.Credit
             throw new NotImplementedException();
         }
 
+        public PlanOfPaymentModel GetPaymentSchedule()
+        {
+            throw new NotImplementedException();
+        }
+
         public void CloseBankDay()
         {
             throw new NotImplementedException();
