@@ -63,7 +63,6 @@ namespace WebApplication.Models.ViewModels
         public string Disability { get; set; }
         [Required]
         public bool Pensioner { get; set; }
-        [DataType(DataType.Currency)]
         public decimal MonthlyIncome { get; set; }
 
 

@@ -1,40 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using WebApplication.Infrastructure.Repository;
-using WebApplication.Models.DataModels;
+using AutoMapper;
+using Ninject;
 using WebApplication.Models.ViewModels;
+using BL.Services.Client;
+using BL.Services.Client.Models;
+using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace WebApplication.Controllers
 {
     public class ClientController : Controller
     {
-        private readonly ClientData repository;
+        [Inject]
+        public IClientService ClientService { get; set; }
+        
 
-        public ClientController()
-        {
-            this.repository = new ClientData(Resolver.GetService<IClientService>());
-        }
         // GET: Client
         public ActionResult Index()
         {
-            var clients = repository.GetAll(); 
+            var clients = ClientService.GetAll(); 
             return View(clients);
         }
 
         // GET: Client/Details/5
         public ActionResult Details(int id)
         {
-            var client = repository.Get(id);
-            return View(client);
+            var client = ClientService.Get(id);
+            return View(Mapper.Map<ClientModel, Client>(client));
         }
 
         // GET: Client/Create
         public ActionResult Create()
         {
-            return View(repository.GetLists(new Client()));
+            return View(new Client());
         }
 
         // POST: Client/Create
@@ -46,28 +46,27 @@ namespace WebApplication.Controllers
             {
                 try
                 {
-                    int id = repository.Create(client);
-                    return RedirectToAction("Details", new {id = id});
+                    var model = ClientService.Add(Mapper.Map<Client, ClientModel>(client));
+                    return RedirectToAction("Details", new {id = model.Id});
                 }
                 catch (ValidationException ex)
                 {
                     ModelState.AddModelError("", ex.Message);
-                    return View(repository.GetLists(client));
+                    return View(Mapper.Map<Client, Client>(client));
                 }
                 catch (Exception ex)
                 {
                     return View("Error");
                 }
             }
-            return View(repository.GetLists(client));
+            return View(Mapper.Map<Client, Client>(client));
         }
 
         // GET: Client/Edit/5
         public ActionResult Edit(int id)
         {
-            var client = repository.Get(id);
-            client = repository.GetLists(client);
-            return View(client);
+            var client = ClientService.Get(id);
+            return View(Mapper.Map<ClientModel, Client>(client));
         }
 
         // POST: Client/Edit/5
@@ -79,27 +78,27 @@ namespace WebApplication.Controllers
             {
                 try
                 {
-                    repository.Update(client);
+                    ClientService.Update(Mapper.Map<Client, ClientModel>(client));
                     return RedirectToAction("Details", new {id = client.Id});
                 }
                 catch (ValidationException ex)
                 {
                     ModelState.AddModelError("", ex.Message);
-                    return View(repository.GetLists(client));
+                    return View(Mapper.Map<Client, Client>(client));
                 }
                 catch(Exception ex)
                 {
                     return View("Error");
                 }
             }
-            return View(repository.GetLists(client));
+            return View(Mapper.Map<Client, Client>(client));
         }
 
         // GET: Client/Delete/5
         public ActionResult Delete(int id)
         {
-            var client = repository.Get(id);
-            return View(client);
+            var client = ClientService.Get(id);
+            return View(Mapper.Map<ClientModel, Client>(client));
         }
 
         // POST: Client/Delete/5
@@ -111,7 +110,7 @@ namespace WebApplication.Controllers
             try
             {
                 // TODO: Add delete logic here
-                repository.Delete(id);
+                ClientService.Delete(id);
                 return RedirectToAction("Index");
             }
             catch

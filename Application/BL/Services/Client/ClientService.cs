@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BL.Services.Client.Models;
 using BL.Services.Common.Model;
+using ORMLibrary;
 using AppContext = ORMLibrary.AppContext;
 
 namespace BL.Services.Client
@@ -21,6 +22,11 @@ namespace BL.Services.Client
         {
             try
             {
+                if (Context.Clients.Any(e => e.IdentificationNumber == client.IdentificationNumber))
+                    throw new ValidationException("User with the same identification number is already exists.");
+                if (Context.Clients.Any(
+                        e => e.PassportNumber == client.PassportNumber && e.PassportSeries == client.PassportSeries))
+                    throw new ValidationException("User with the same passport seria and number is already exists.");
                 var dbClient = Mapper.Map<ClientModel, ORMLibrary.Client>(client);
                 dbClient.Disability = Context.Disabilities.First(e => e.Id == client.Disability.Id);
                 dbClient.Town = Context.Towns.First(e => e.Id == client.Town.Id);
@@ -32,7 +38,7 @@ namespace BL.Services.Client
             }
             catch (Exception ex)
             {
-                throw new ServiceException("Exception during client adding", ex);
+                throw new ServiceException("Exception during client adding.", ex);
             }
         }
 
@@ -60,7 +66,7 @@ namespace BL.Services.Client
             }
             catch (Exception ex)
             {
-                throw new ServiceException("Exception during client deleting", ex);
+                throw new ServiceException("Exception during client deleting.", ex);
             }
         }
 
@@ -70,7 +76,7 @@ namespace BL.Services.Client
             {
                 var dbClient = Context.Clients.FirstOrDefault(e => e.Id == client.Id);
                 if (dbClient == null)
-                    throw new ServiceException("User not found");                
+                    throw new ServiceException("User not found.");
                 dbClient = Mapper.Map<ClientModel, ORMLibrary.Client>(client);
                 dbClient.Disability = Context.Disabilities.First(e => e.Id == client.Disability.Id);
                 dbClient.Town = Context.Towns.First(e => e.Id == client.Town.Id);
@@ -84,8 +90,28 @@ namespace BL.Services.Client
             }
             catch (Exception ex)
             {
-                throw new ServiceException("Exception during client updating", ex);
+                throw new ServiceException("Exception during client updating.", ex);
             }
+        }
+
+        public IEnumerable<DisabilityModel> GetDisabilities()
+        {
+            return Context.Disabilities.ToArray().Select(Mapper.Map<Disability, DisabilityModel>);
+        }
+
+        public IEnumerable<MaritalStatusModel> GetMaritalStatuses()
+        {
+            return Context.MartialStatus.ToArray().Select(Mapper.Map<MartialStatus, MaritalStatusModel>);
+        }
+
+        public IEnumerable<TownModel> GetTowns()
+        {
+            return Context.Towns.ToArray().Select(Mapper.Map<Town, TownModel>);
+        }
+
+        public IEnumerable<CitizenshipModel> GetCitizenships()
+        {
+            return Context.Citizenships.ToArray().Select(Mapper.Map<Citizenship, CitizenshipModel>);
         }
     }
 }

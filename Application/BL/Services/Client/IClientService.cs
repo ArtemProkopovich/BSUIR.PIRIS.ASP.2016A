@@ -10,5 +10,10 @@ namespace BL.Services.Client
         ClientModel Get(int id);
         void Delete(int id);
         void Update(ClientModel client);
+
+        IEnumerable<DisabilityModel> GetDisabilities();
+        IEnumerable<MaritalStatusModel> GetMaritalStatuses();
+        IEnumerable<TownModel> GetTowns();
+        IEnumerable<CitizenshipModel> GetCitizenships();
     }
 }

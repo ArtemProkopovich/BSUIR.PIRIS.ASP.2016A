@@ -141,8 +141,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\MapperRegistrar.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
-    <Compile Include="Infrastructure\Repository\IMvcRepository.cs" />
     <Compile Include="Models\DataModels\ClientData.cs" />
     <Compile Include="Models\ViewModels\Client.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -219,6 +219,10 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BL\BL.csproj">
+      <Project>{3817ED0C-CBDF-428C-A136-C4DD8AEFFCCC}</Project>
+      <Name>BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DIContainer\DIContainer.csproj">
       <Project>{fcda08d0-d80d-4567-8202-a68faa75889d}</Project>
       <Name>DIContainer</Name>
