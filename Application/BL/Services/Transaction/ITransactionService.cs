@@ -6,7 +6,9 @@ namespace BL.Services.Transaction
     public interface ITransactionService
     {
         void CommitTransaction(int debitAccountId, int creditAccountId, decimal amount);
+        void CommitTransaction(ORMLibrary.Account debitAccount, ORMLibrary.Account creditAccount, decimal amount);
         void CommitCashDeskTransaction(decimal amount);
+        void WithDrawCashDeskTransaction(decimal amount);
         IEnumerable<TransactionModel> GetAll();
         IEnumerable<TransactionModel> GetAll(int accountId);
         IEnumerable<TransactionModel> GetAllByDay(int bankDayNumber);

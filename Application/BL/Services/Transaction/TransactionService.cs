@@ -2,21 +2,36 @@
 using System.Linq;
 using System.Collections.Generic;
 using AutoMapper;
+using BL.Services.Account;
 using BL.Services.Account.Models;
 using BL.Services.Transaction.Models;
+using Ninject;
 using AppContext = ORMLibrary.AppContext;
+using ORMLibrary;
 
 namespace BL.Services.Transaction
 {
     public class TransactionService : BaseService, ITransactionService
     {
+        [Inject]
+        IAccountService AccountService { get; set; }
+
         public TransactionService(AppContext context) : base(context)
         {
         }
 
         public void CommitCashDeskTransaction(decimal amount)
         {
-            throw new NotImplementedException();
+            var account = AccountService.GetCashDeskAccount();
+            account.DebitValue += amount;
+            account.Balance = account.DebitValue - account.CreditValue;
+        }
+
+        public void WithDrawCashDeskTransaction(decimal amount)
+        {
+            var account = AccountService.GetCashDeskAccount();
+            account.CreditValue -= amount;
+            account.Balance = account.DebitValue - account.CreditValue;
         }
 
         public void CommitTransaction(int debitAccountId, int creditAccountId, decimal amount)
@@ -26,7 +41,12 @@ namespace BL.Services.Transaction
 
             if (debitAccount == null || creditAccount == null)
                 throw new AccountNotFoundException("One of transaction account was not found.");
-                
+
+            CommitTransaction(debitAccount, creditAccount, amount);
+        }
+
+        public void CommitTransaction(ORMLibrary.Account debitAccount, ORMLibrary.Account creditAccount, decimal amount)
+        {
             if (debitAccount.PlanOfAccount.AccountType == "P")
             {
                 if (amount > debitAccount.DebitValue)
@@ -61,8 +81,6 @@ namespace BL.Services.Transaction
             };
 
             Context.Transactions.Add(trs);
-
-            Context.SaveChanges();
         }
 
         public IEnumerable<TransactionModel> GetAll()
@@ -76,13 +94,13 @@ namespace BL.Services.Transaction
         {
             return
                 Context.Transactions.ToArray()
-                    .Where(e => e.DebetAccountId == accountId || e.CreditAccountId == accountId)
+                    .Where(e => e.DebetAccountId == accountId || e.CreditAccountId == accountId).ToArray()
                     .Select(Mapper.Map<ORMLibrary.Transaction, TransactionModel>);
         }
 
         public IEnumerable<TransactionModel> GetAllByDay(int bankDayNumber)
         {
-            throw new NotImplementedException();
+            return Context.Transactions.Reverse().ToArray().Select(Mapper.Map<ORMLibrary.Transaction, TransactionModel>);
         }
     }
 }

@@ -6,6 +6,8 @@ using Ninject;
 using ORMLibrary;
 using BL.Services.Client.Models;
 using System;
+using BL.Services.Credit.Models;
+using BL.Services.Deposit.Models;
 
 namespace BL.Services.Account
 {
@@ -40,17 +42,31 @@ namespace BL.Services.Account
             return Context.Accounts.ToArray().Select(Mapper.Map<ORMLibrary.Account, AccountModel>);
         }
 
+        public ORMLibrary.Deposit CreateAccountsForDeposit(ORMLibrary.Deposit deposit)
+        {
+            deposit.MainAccount = CreateAccount(deposit.PlanOfDeposit.MainPlanOfAccount, deposit.ClientId);
+            deposit.PercentAccount = CreateAccount(deposit.PlanOfDeposit.PercentPlanOfAccount, deposit.ClientId);
+            return deposit;
+        }
+
+        public ORMLibrary.Credit CreateAccountsForCredit(ORMLibrary.Credit credit)
+        {
+            credit.MainAccount = CreateAccount(credit.PlanOfCredit.MainPlanOfAccount, credit.ClientId);
+            credit.PercentAccount = CreateAccount(credit.PlanOfCredit.PercentPlanOfAccount, credit.ClientId);
+            return credit;
+        }
+
         private void InitAccounts()
         {
             Context.Accounts.AddRange(new List<ORMLibrary.Account>()
             {
-                CreateAccount("1010", 0, 0),
-                CreateAccount("7327", 0, 10000000)
+                CreateBaseAccounts("1010", 0, 0),
+                CreateBaseAccounts("7327", 0, 10000000)
             });
             Context.SaveChanges();
         }
 
-        private ORMLibrary.Account CreateAccount(string accountPlanNumber, decimal debit, decimal credit)
+        private ORMLibrary.Account CreateBaseAccounts(string accountPlanNumber, decimal debit, decimal credit)
         {
             ORMLibrary.Account account = new ORMLibrary.Account()
             {
@@ -58,16 +74,30 @@ namespace BL.Services.Account
                 CreditValue = credit,
                 DebitValue = debit,
                 PlanOfAccount = Context.PlanOfAccounts.FirstOrDefault(e => e.AccountNumber == accountPlanNumber),
-                AccountNumber = GenerateAccountNumber(accountPlanNumber, null)
+                AccountNumber = GenerateAccountNumber(accountPlanNumber, 0)
             };
             return account;
         }
 
-        private string GenerateAccountNumber(string accountPlanNumber, ClientModel client)
+        private ORMLibrary.Account CreateAccount(PlanOfAccount plan, int cliendId)
         {
-            if (client == null)
-                return accountPlanNumber + "123456789";
-            return accountPlanNumber + "987654321";
+            return new ORMLibrary.Account()
+            {
+                DebitValue = 0,
+                CreditValue = 0,
+                Balance = 0,
+                PlanOfAccount = plan,
+                AccountNumber = GenerateAccountNumber(plan.AccountNumber, cliendId)
+            };
         }
+
+        private static int number = 1;
+
+        private string GenerateAccountNumber(string accountPlanNumber, int clientId)
+        {
+            if (clientId == 0)
+                return accountPlanNumber + "000000000";
+            return $"{accountPlanNumber}{clientId:5}{number++:4}";
+        }      
     }
 }

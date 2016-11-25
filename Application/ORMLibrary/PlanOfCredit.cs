@@ -30,9 +30,9 @@ namespace ORMLibrary
         [Column(TypeName = "money")]
         public decimal? MinAmount { get; set; }
 
-        public int MainAccountId { get; set; }
+        public int MainAccountPlanId { get; set; }
 
-        public int PercentAccountId { get; set; }
+        public int PercentAccountPlanId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Credit> Credits { get; set; }

@@ -196,13 +196,13 @@ namespace ORMLibrary
             modelBuilder.Entity<PlanOfAccount>()
                 .HasMany(e => e.MainAccountPlanOfCredits)
                 .WithRequired(e => e.MainPlanOfAccount)
-                .HasForeignKey(e => e.MainAccountId)
+                .HasForeignKey(e => e.MainAccountPlanId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<PlanOfAccount>()
                 .HasMany(e => e.PercentAccountPlanOfCredits)
                 .WithRequired(e => e.PercentPlanOfAccount)
-                .HasForeignKey(e => e.PercentAccountId)
+                .HasForeignKey(e => e.PercentAccountPlanId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<PlanOfAccount>()
