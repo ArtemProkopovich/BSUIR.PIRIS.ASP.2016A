@@ -15,11 +15,11 @@ namespace BL.Services.ATM
         {
         }
 
-        public CreditModel LoginUser(string creditNumber, string pin)
+        public CreditModel LoginUser(string creditCardNumber, string pin)
         {
             var credit =
                 Context.Credits.FirstOrDefault(
-                    e => e.MainAccount.AccountNumber == creditNumber && e.CreditCardPin == pin);
+                    e => e.CreditCardNumber == creditCardNumber && e.CreditCardPin == pin);
             return Mapper.Map<ORMLibrary.Credit, CreditModel>(credit);
         }
     }

@@ -6,6 +6,8 @@ using AutoMapper;
 using AutoMapper.Configuration;
 using BL.Services.Client;
 using BL.Services.Client.Models;
+using BL.Services.Credit;
+using BL.Services.Deposit;
 using Ninject;
 using WebApplication.Models.ViewModels;
 
@@ -16,8 +18,16 @@ namespace WebApplication.Infrastructure
         [Inject]
         IClientService ClientService { get; set; }
 
+        [Inject]
+        IDepositService DepositService { get; set; }
+
+        [Inject]
+        ICreditService CreditService { get; set; }
+
         public void Register()
         {
+            #region ClientMapper
+
             Mapper.Initialize(
                 e => e.CreateMap<ClientModel, Client>()
                     .ForMember<string>(r => r.Disability, r => r.MapFrom(t => t.Disability.Status))
@@ -61,6 +71,28 @@ namespace WebApplication.Infrastructure
                         r => r.MapFrom(t => ClientService.GetTowns().Select(y => y.Name)))
                     .ForMember<IEnumerable<string>>(r => r.MartialStatuses,
                         r => r.MapFrom(t => ClientService.GetMaritalStatuses().Select(y => y.Status))));
+
+            #endregion
+
+            #region DepositMapper
+
+            #endregion
+
+            #region PlanOfDepositMapper
+
+            #endregion
+
+            #region CreditMapper
+
+            #endregion
+
+            #region PlanOfCreditMapper
+
+            #endregion
+
+            #region TransactionMapper
+
+            #endregion
         }
     }
 }

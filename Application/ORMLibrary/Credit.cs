@@ -26,6 +26,9 @@ namespace ORMLibrary
 
         public int PercentAccountId { get; set; }
 
+        [StringLength(16)]
+        public string CreditCardNumber { get; set; }
+
         [StringLength(4)]
         public string CreditCardPin { get; set; }
 

@@ -14,6 +14,11 @@ namespace BL.Services.Transaction
         {
         }
 
+        public void CommitCashDeskTransaction(decimal amount)
+        {
+            throw new NotImplementedException();
+        }
+
         public void CommitTransaction(int debitAccountId, int creditAccountId, decimal amount)
         {
             var debitAccount = Context.Accounts.FirstOrDefault(e => e.Id == debitAccountId);

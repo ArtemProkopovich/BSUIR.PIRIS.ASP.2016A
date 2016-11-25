@@ -50,7 +50,7 @@ namespace BL.Services.Account
                 },
                 new PlanOfAccount()
                 {
-                    AccountName = "Bank Insurance Fund account",
+                    AccountName = "Bank cash desk account",
                     AccountNumber = "1010",
                     AccountType = "A",
                 },

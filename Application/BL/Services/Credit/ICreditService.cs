@@ -14,6 +14,7 @@ namespace BL.Services.Credit
         IEnumerable<CreditModel> GetAll();
         PlanOfPaymentModel GetPaymentSchedule();
         void CloseBankDay();
+        void PayPercents(int id);
         void CloseCredit(int id);
     }
 }

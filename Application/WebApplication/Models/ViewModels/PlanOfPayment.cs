@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace BL.Services.Credit.Models
+namespace WebApplication.Models.ViewModels
 {
-    public class PlanOfPaymentModel
+    public class PlanOfPayment
     {
         public DateTime CurrentDay { get; set; }
         public IDictionary<DateTime, decimal> PaymentSchedule { get; set; }

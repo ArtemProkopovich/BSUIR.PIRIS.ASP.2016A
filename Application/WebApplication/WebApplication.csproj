@@ -136,8 +136,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AtmController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
+    <Compile Include="Controllers\CreditController.cs" />
+    <Compile Include="Controllers\DepositController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PlanOfCreditController.cs" />
+    <Compile Include="Controllers\PlanOfDepositController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -145,6 +150,12 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\DataModels\ClientData.cs" />
     <Compile Include="Models\ViewModels\Client.cs" />
+    <Compile Include="Models\ViewModels\Credit.cs" />
+    <Compile Include="Models\ViewModels\Deposit.cs" />
+    <Compile Include="Models\ViewModels\PlanOfAccount.cs" />
+    <Compile Include="Models\ViewModels\PlanOfCredit.cs" />
+    <Compile Include="Models\ViewModels\PlanOfDeposit.cs" />
+    <Compile Include="Models\ViewModels\PlanOfPayment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +221,11 @@
     <Content Include="Views\Client\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Atm\" />
+    <Folder Include="Views\Credit\" />
+    <Folder Include="Views\Deposit\" />
+    <Folder Include="Views\PlanOfCredit\" />
+    <Folder Include="Views\PlanOfDeposit\" />
     <Folder Include="Views\Plan\" />
   </ItemGroup>
   <ItemGroup>

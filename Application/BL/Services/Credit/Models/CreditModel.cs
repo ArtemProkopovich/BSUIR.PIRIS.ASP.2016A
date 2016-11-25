@@ -20,6 +20,7 @@ namespace BL.Services.Credit.Models
         public decimal Amount { get; set; }
         public int MainAccountId { get; set; }
         public int PercentAccountId { get; set; }
+        public string CreditCardNumber { get; set; }
         public string CreditCardPin { get; set; }
         public virtual AccountModel MainAccount { get; set; }
         public virtual AccountModel PercentAccount { get; set; }
