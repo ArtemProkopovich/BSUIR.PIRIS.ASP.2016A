@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
-using Ninject;
 using WebApplication.Models.ViewModels;
 using BL.Services.Client;
 using BL.Services.Client.Models;
+using Microsoft.Practices.Unity;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace WebApplication.Controllers
 {
     public class ClientController : Controller
     {
-        [Inject]
+        [Dependency]
         public IClientService ClientService { get; set; }
         
 
         // GET: Client
         public ActionResult Index()
         {
-            var clients = ClientService.GetAll(); 
-            return View(clients);
+            var clients = ClientService.GetAll();
+            return View(clients.Select(Mapper.Map<ClientModel, Client>));
         }
 
         // GET: Client/Details/5
@@ -34,7 +34,7 @@ namespace WebApplication.Controllers
         // GET: Client/Create
         public ActionResult Create()
         {
-            return View(new Client());
+            return View(Mapper.Map<Client, Client>(new Client()));
         }
 
         // POST: Client/Create

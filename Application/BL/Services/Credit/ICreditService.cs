@@ -12,7 +12,7 @@ namespace BL.Services.Credit
         void Create(CreditModel credit);
         CreditModel Get(int id);
         IEnumerable<CreditModel> GetAll();
-        PlanOfPaymentModel GetPaymentSchedule();
+        PlanOfPaymentModel GetPaymentSchedule(int creditId);
         void CloseBankDay();
         void PayPercents(int id);
         void CloseCredit(int id);

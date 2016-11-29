@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using AutoMapper;
 using BL.Services.Account;
 using BL.Services.Account.Models;
+using BL.Services.Common;
 using BL.Services.Transaction.Models;
-using Ninject;
+using Microsoft.Practices.Unity;
 using AppContext = ORMLibrary.AppContext;
 using ORMLibrary;
 
@@ -13,14 +14,16 @@ namespace BL.Services.Transaction
 {
     public class TransactionService : BaseService, ITransactionService
     {
-        [Inject]
+        [Dependency]
         IAccountService AccountService { get; set; }
+        [Dependency]
+        ICommonService CommonService { get; set; }
 
         public TransactionService(AppContext context) : base(context)
         {
         }
 
-        public void CommitCashDeskTransaction(decimal amount)
+        public void CommitCashDeskDebitTransaction(decimal amount)
         {
             var account = AccountService.GetCashDeskAccount();
             account.DebitValue += amount;
@@ -49,15 +52,11 @@ namespace BL.Services.Transaction
         {
             if (debitAccount.PlanOfAccount.AccountType == "P")
             {
-                if (amount > debitAccount.DebitValue)
-                    throw new InsufficientFundsException("Insufficient Funds");
                 debitAccount.DebitValue -= amount;
                 debitAccount.Balance = debitAccount.CreditValue - debitAccount.DebitValue;
             }
             else
             {
-                if (amount > debitAccount.CreditValue)
-                    throw new InsufficientFundsException("Insufficient Funds");
                 debitAccount.CreditValue -= amount;
                 debitAccount.Balance = debitAccount.DebitValue - debitAccount.CreditValue;
             }
@@ -77,7 +76,8 @@ namespace BL.Services.Transaction
             {
                 DebetAccountId = debitAccount.Id,
                 CreditAccountId = creditAccount.Id,
-                Amount = amount
+                Amount = amount,
+                TransactionDay = CommonService.CurrentBankDay
             };
 
             Context.Transactions.Add(trs);

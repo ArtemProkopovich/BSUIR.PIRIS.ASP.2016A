@@ -9,6 +9,8 @@ namespace BL.Services.Common
 {
     public interface IBankService
     {
-        SystemVariableModel GetSystemVariables();
+        void CloseBankDay();
+        void CloseBankMonth();
+        void CloseBankYear();
     }
 }

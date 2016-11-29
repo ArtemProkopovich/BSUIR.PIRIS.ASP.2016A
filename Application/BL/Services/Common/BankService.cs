@@ -3,34 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using BL.Services.Common.Model;
-using ORMLibrary;
+using BL.Services.Credit;
+using BL.Services.Deposit;
+using Microsoft.Practices.Unity;
 using AppContext = ORMLibrary.AppContext;
 
 namespace BL.Services.Common
 {
     public class BankService : BaseService, IBankService
     {
+        [Dependency]
+        ICreditService CreditService { get; set; }
+
+        [Dependency]
+        IDepositService DepositService { get; set; } 
+
+        ICommonService CommonService { get; set; }
+
         public BankService(AppContext context) : base(context)
         {
         }
 
-        public SystemVariableModel GetSystemVariables()
+        private void CloseBankDayWork()
         {
-            var sv = Context.SystemVariables.FirstOrDefault();
-            if (sv == null)
-            {
-                sv =
-                    Context.SystemVariables.Add(new SystemVariable()
-                    {
-                        StartBankDay = 0,
-                        CurrentBankDay = 0,
-                        StartDate = DateTime.Now.Date
-                    });
-                Context.SaveChangesAsync();
-            }
-            return Mapper.Map<SystemVariable, SystemVariableModel>(sv);
+            DepositService.CloseBankDay();
+            CreditService.CloseBankDay();
+            CommonService.IncreaseCurrentBankDay();
         }
+
+        public void CloseBankDay()
+        {
+            CloseBankDayWork();
+            Context.SaveChanges();
+        }
+
+        public void CloseBankMonth()
+        {
+            for (int i = 0; i < CommonService.MonthLength; i++)
+            {
+                CloseBankDayWork();
+            }
+            Context.SaveChanges();
+        }
+
+        public void CloseBankYear()
+        {
+            for (int i = 0; i < CommonService.YearLength; i++)
+            {
+                CloseBankDayWork();
+            }
+            Context.SaveChanges();
+        }     
     }
 }

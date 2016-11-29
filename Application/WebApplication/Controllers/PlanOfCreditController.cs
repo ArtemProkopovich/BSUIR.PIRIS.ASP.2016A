@@ -6,14 +6,14 @@ using System.Web.Mvc;
 using AutoMapper;
 using BL.Services.Credit;
 using BL.Services.Credit.Models;
-using Ninject;
+using Microsoft.Practices.Unity;
 using WebApplication.Models.ViewModels;
 
 namespace WebApplication.Controllers
 {
     public class PlanOfCreditController : Controller
     {
-        [Inject]
+        [Dependency]
         public IPlanOfCreditService PlanService { get; set; }
 
         public ActionResult Index()
@@ -25,7 +25,7 @@ namespace WebApplication.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View(new PlanOfCredit());
+            return View();
         }
 
         [HttpPost]

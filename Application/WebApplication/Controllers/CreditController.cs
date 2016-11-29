@@ -4,26 +4,26 @@ using System.Web.Mvc;
 using AutoMapper;
 using BL.Services.Credit;
 using BL.Services.Credit.Models;
-using Ninject;
+using Microsoft.Practices.Unity;
 using WebApplication.Models.ViewModels;
 
 namespace WebApplication.Controllers
 {
     public class CreditController : Controller
     {
-        [Inject]
+        [Dependency]
         public ICreditService CreditService { get; set; }
 
         public ActionResult Index()
         {
-            var Credits = CreditService.GetAll();
-            return View(Credits.Select(Mapper.Map<CreditModel, Credit>));
+            var credits = CreditService.GetAll();
+            return View(credits.Select(Mapper.Map<CreditModel, Credit>));
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            return View(new Credit());
+            return View();
         }
 
         [HttpPost]
@@ -39,10 +39,10 @@ namespace WebApplication.Controllers
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", ex.Message);
-                    return View(credit);
+                    return View(Mapper.Map<Credit, CreateCreditModel>(credit));
                 }
             }
-            return View(credit);
+            return View(Mapper.Map<Credit, CreateCreditModel>(credit));
         }
 
         [HttpGet]
@@ -55,7 +55,8 @@ namespace WebApplication.Controllers
         [HttpGet]
         public ActionResult PaymentSchedule(int creditId)
         {
-            
+            var schedule = CreditService.GetPaymentSchedule(creditId);
+            return View("Schedule", Mapper.Map<PlanOfPaymentModel, PlanOfPayment>(schedule));
         }
 
 
@@ -67,7 +68,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult WithDrawCredit(int creditId)
+        public ActionResult CloseCredit(int creditId)
         {
             CreditService.CloseCredit(creditId);
             return RedirectToAction("Details", new { CreditId = creditId });

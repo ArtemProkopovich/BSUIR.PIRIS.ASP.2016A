@@ -18,6 +18,8 @@ namespace ORMLibrary
         [Column(TypeName = "money")]
         public decimal Amount { get; set; }
 
+        public int TransactionDay { get; set; }
+
         public virtual Account DebetAccount { get; set; }
 
         public virtual Account CreditAccount { get; set; }

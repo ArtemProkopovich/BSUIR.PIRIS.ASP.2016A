@@ -9,7 +9,7 @@ using BL.Services.Common;
 using BL.Services.Common.Model;
 using BL.Services.Deposit.Models;
 using BL.Services.Transaction;
-using Ninject;
+using Microsoft.Practices.Unity;
 using ORMLibrary;
 using AppContext = ORMLibrary.AppContext;
 
@@ -17,17 +17,14 @@ namespace BL.Services.Deposit
 {
     public class DepositService : BaseService, IDepositService
     {
-        [Inject]
+        [Dependency]
         IAccountService AccountService { get; set; }
 
-        [Inject]
-        IBankService BankService { get; set; }
+        [Dependency]
+        ICommonService BankService { get; set; }
 
-        [Inject] 
+        [Dependency] 
         ITransactionService TransactionService { get; set; }
-
-        private const int MonthLength = 30;
-        private const int YearLength = 365;
 
         public DepositService(AppContext context) : base(context)
         {
@@ -35,11 +32,15 @@ namespace BL.Services.Deposit
 
         public void Create(DepositModel deposit)
         {
+            if (deposit.Amount == 0)
+                throw new ServiceException("Amount cannot be zero.");
+
             var dbDeposit = Mapper.Map<DepositModel, ORMLibrary.Deposit>(deposit);
             dbDeposit.PlanOfDeposit = Context.PlanOfDeposits.FirstOrDefault(e => e.Id == deposit.PlanId);
             dbDeposit.Client = Context.Clients.FirstOrDefault(e => e.Id == deposit.ClientId);
             AccountService.CreateAccountsForDeposit(dbDeposit);
-            dbDeposit.StartDate = BankService.GetSystemVariables().CurrentBankDay;
+            dbDeposit.StartDate = BankService.CurrentBankDay;
+            dbDeposit.EndDate = dbDeposit.StartDate + dbDeposit.PlanOfDeposit.BankDayPeriod;
             dbDeposit.Amount = deposit.Amount;
 
             HoldMoneyOnDeposit(dbDeposit);  
@@ -49,8 +50,8 @@ namespace BL.Services.Deposit
 
         public DepositModel Get(int id)
         {
-            var client = Context.Deposits.FirstOrDefault(e => e.Id == id);
-            return Mapper.Map<ORMLibrary.Deposit, DepositModel>(client);
+            var deposit = Context.Deposits.FirstOrDefault(e => e.Id == id);
+            return Mapper.Map<ORMLibrary.Deposit, DepositModel>(deposit);
         }
 
         public IEnumerable<DepositModel> GetAll()
@@ -60,22 +61,39 @@ namespace BL.Services.Deposit
 
         public void CloseBankDay()
         {
-            throw new NotImplementedException();
+            var deposits =
+                Context.Deposits.Where(
+                    e =>
+                        e.StartDate > BankService.CurrentBankDay && e.EndDate < BankService.CurrentBankDay &&
+                        e.Amount >= 0);
+            foreach (var deposit in deposits)
+            {
+                CommitPercents(deposit);
+            }
+        }
+
+        private void CommitPercents(ORMLibrary.Deposit deposit)
+        {
+            decimal percentAmount = deposit.Amount*(decimal) (deposit.PlanOfDeposit.Percent/BankService.YearLength);
+            TransactionService.CommitTransaction(AccountService.GetDevelopmentFundAccount(), deposit.PercentAccount,
+                percentAmount);
         }
 
         public void WithdrawPercents(int id)
         {
             var deposit = Context.Deposits.FirstOrDefault(e => e.Id == id);
-            if (!deposit.PlanOfDeposit.Revocable ||
-                (BankService.GetSystemVariables().CurrentBankDay - deposit.StartDate)%MonthLength != 0)
+            if (!deposit.PlanOfDeposit.Revocable)
+            {
+                throw new ServiceException("Cannot withdraw percents before deposit program ended.");
+            }
+            if ((BankService.CurrentBankDay - deposit.StartDate)%BankService.MonthLength != 0)
             {
                 throw new ServiceException("Cannot withdraw percents before month ended.");
             }
 
-            TransactionService.CommitTransaction(AccountService.GetDevelopmentFundAccount(), deposit.PercentAccount,
-                deposit.PercentAccount.DebitValue);
             TransactionService.CommitTransaction(deposit.PercentAccount, AccountService.GetCashDeskAccount(),
                 deposit.PercentAccount.CreditValue);
+            TransactionService.WithDrawCashDeskTransaction(deposit.PercentAccount.CreditValue);
 
             Context.SaveChanges();
         }
@@ -83,20 +101,22 @@ namespace BL.Services.Deposit
         public void CloseDeposit(int id)
         {
             var deposit = Context.Deposits.FirstOrDefault(e => e.Id == id);
-            if (!deposit.PlanOfDeposit.Revocable && deposit.EndDate > BankService.GetSystemVariables().CurrentBankDay)
-            {
+            if (!deposit.PlanOfDeposit.Revocable && deposit.EndDate > BankService.CurrentBankDay)
                 throw new SystemException("Cannot close deposit before deposit term ended.");
-            }
+
+            if (deposit.Amount == 0)
+                throw new SystemException("Deposit already have been closed.");
 
             TransactionService.CommitTransaction(AccountService.GetDevelopmentFundAccount(), deposit.MainAccount,
                     deposit.MainAccount.CreditValue);
             TransactionService.CommitTransaction(deposit.MainAccount, AccountService.GetCashDeskAccount(),
                 deposit.MainAccount.CreditValue);
 
-            TransactionService.CommitTransaction(AccountService.GetDevelopmentFundAccount(), deposit.PercentAccount,
-                -deposit.PercentAccount.DebitValue);
+            var percentBalance = deposit.PercentAccount.Balance;
             TransactionService.CommitTransaction(deposit.PercentAccount, AccountService.GetCashDeskAccount(),
-                -deposit.PercentAccount.DebitValue);
+                percentBalance);
+
+            TransactionService.WithDrawCashDeskTransaction(deposit.MainAccount.CreditValue + percentBalance);
             deposit.Amount = 0;
 
             Context.SaveChanges();
@@ -104,7 +124,7 @@ namespace BL.Services.Deposit
 
         private void HoldMoneyOnDeposit(ORMLibrary.Deposit deposit)
         {
-            TransactionService.CommitCashDeskTransaction(deposit.Amount);
+            TransactionService.CommitCashDeskDebitTransaction(deposit.Amount);
             TransactionService.CommitTransaction(AccountService.GetCashDeskAccount(), deposit.MainAccount,
                 deposit.Amount);
             TransactionService.CommitTransaction(deposit.MainAccount, AccountService.GetDevelopmentFundAccount(),

@@ -4,14 +4,14 @@ using System.Web.Mvc;
 using AutoMapper;
 using BL.Services.Deposit;
 using BL.Services.Deposit.Models;
-using Ninject;
+using Microsoft.Practices.Unity;
 using WebApplication.Models.ViewModels;
 
 namespace WebApplication.Controllers
 {
     public class PlanOfDepositController : Controller
     {
-        [Inject]
+        [Dependency]
         public IPlanOfDepositService PlanService { get; set; }
 
         public ActionResult Index()
@@ -23,7 +23,7 @@ namespace WebApplication.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View(new PlanOfDeposit());
+            return View();
         }
 
         [HttpPost]

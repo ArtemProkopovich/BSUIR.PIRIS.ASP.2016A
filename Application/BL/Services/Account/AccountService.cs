@@ -2,7 +2,6 @@
 using BL.Services.Account.Models;
 using System.Linq;
 using AutoMapper;
-using Ninject;
 using ORMLibrary;
 using BL.Services.Client.Models;
 using System;
@@ -26,7 +25,7 @@ namespace BL.Services.Account
             var plan = Context.PlanOfAccounts.FirstOrDefault(e => e.Id == account.PlanId);
             ORMLibrary.Account dbAccount = new ORMLibrary.Account()
             {
-                AccountNumber = GenerateAccountNumber(plan.AccountNumber, client),
+                AccountNumber = GenerateAccountNumber(plan.AccountNumber, client.Id),
                 DebitValue = account.DebitValue,
                 CreditValue = account.CreditValue,
                 Balance = account.DebitValue - account.CreditValue,
@@ -98,6 +97,16 @@ namespace BL.Services.Account
             if (clientId == 0)
                 return accountPlanNumber + "000000000";
             return $"{accountPlanNumber}{clientId:5}{number++:4}";
-        }      
+        }
+
+        public ORMLibrary.Account GetCashDeskAccount()
+        {
+            return Context.Accounts.FirstOrDefault(e => e.PlanOfAccount.AccountNumber == "1010");
+        }
+
+        public ORMLibrary.Account GetDevelopmentFundAccount()
+        {
+            return Context.Accounts.FirstOrDefault(e => e.PlanOfAccount.AccountNumber == "7327");
+        }
     }
 }
