@@ -10,6 +10,8 @@ namespace WebApplication.Controllers
     {
         public ActionResult Index()
         {
+            //123
+            return (ActionResult) new object();
             return View();
         }
     }

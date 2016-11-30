@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using BL.Services.Client.Models;
 using BL.Services.Common.Model;
@@ -16,6 +14,10 @@ namespace BL.Services.Client
     {
         public ClientService(AppContext context) : base(context)
         {
+            if (!Context.Disabilities.Any())
+            {
+                InitStatuses();
+            }
         }
 
         public ClientModel Add(ClientModel client)
@@ -112,6 +114,40 @@ namespace BL.Services.Client
         public IEnumerable<CitizenshipModel> GetCitizenships()
         {
             return Context.Citizenships.ToArray().Select(Mapper.Map<Citizenship, CitizenshipModel>);
+        }
+
+        private void InitStatuses()
+        {
+            Context.Disabilities.AddRange(new[]
+            {
+                new Disability() {Status = "Not disable"},
+                new Disability() {Status = "Disability of 3 degree."},
+                new Disability() {Status = "Disability of 2 degree."},
+                new Disability() {Status = "Disability of 1 degree."}
+            });
+            Context.MartialStatus.AddRange(new[]
+            {
+                new MartialStatus() {Status = "Married"},
+                new MartialStatus() {Status = "Single"}
+            });
+            Context.Towns.AddRange(new[]
+            {
+                new Town() {Name = "Minsk", Country = "Belarus"},
+                new Town() {Name = "Brest", Country = "Belarus"},
+                new Town() {Name = "Grodno", Country = "Belarus"},
+                new Town() {Name = "Gomel", Country = "Belarus"},
+                new Town() {Name = "Mogilev", Country = "Belarus"},
+                new Town() {Name = "Vitebsk", Country = "Belarus"},
+            });
+            Context.Citizenships.AddRange(new[]
+            {
+                new Citizenship() {Country = "Belarus"},
+                new Citizenship() {Country = "Russia"},
+                new Citizenship() {Country = "Poland"},
+                new Citizenship() {Country = "Ukraine"},
+                new Citizenship() {Country = "Lithuania"},
+                new Citizenship() {Country = "Latvia"},
+            });
         }
     }
 }
