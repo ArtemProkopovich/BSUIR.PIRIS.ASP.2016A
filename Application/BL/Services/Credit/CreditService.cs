@@ -17,13 +17,16 @@ namespace BL.Services.Credit
     public class CreditService : BaseService, ICreditService
     {
         [Dependency]
-        IAccountService AccountService { get; set; }
+        public IPlanOfAccountService PlanOfAccountService { get; set; }
 
         [Dependency]
-        ICommonService CommonService { get; set; }
+        public IAccountService AccountService { get; set; }
 
         [Dependency]
-        ITransactionService TransactionService { get; set; }
+        public ICommonService CommonService { get; set; }
+
+        [Dependency]
+        public ITransactionService TransactionService { get; set; }
 
         public CreditService(AppContext context) : base(context)
         {
@@ -41,14 +44,15 @@ namespace BL.Services.Credit
             InitializeCredidCardCredentials(dbCredit);
             dbCredit.StartDate = CommonService.CurrentBankDay;
             dbCredit.EndDate = dbCredit.StartDate + dbCredit.PlanOfCredit.BankDayPeriod;
-            dbCredit.Amount = credit.Amount;
-            
+            dbCredit.Amount = credit.Amount;         
 
             TransactionService.CommitTransaction(AccountService.GetDevelopmentFundAccount(), dbCredit.MainAccount,
                 dbCredit.Amount);
             TransactionService.CommitTransaction(dbCredit.MainAccount, AccountService.GetCashDeskAccount(),
                 dbCredit.Amount);
             TransactionService.WithDrawCashDeskTransaction(dbCredit.Amount);
+
+            Context.Credits.Add(dbCredit);
 
             Context.SaveChanges();
         }
@@ -79,12 +83,12 @@ namespace BL.Services.Credit
                                 new TimeSpan(CommonService.CurrentBankDay, 0, 0, 0);
 
             decimal allAmount = credit.Amount +
-                                    credit.Amount * (credit.EndDate - credit.StartDate) *
-                                    (decimal)credit.PlanOfCredit.Percent / CommonService.YearLength;
+                                credit.Amount*(credit.EndDate - credit.StartDate)*
+                                (decimal) credit.PlanOfCredit.Percent/100/CommonService.YearLength;
             decimal montlyAmount = credit.PlanOfCredit.Anuity
                 ? allAmount/(credit.EndDate - credit.StartDate)*CommonService.MonthLength
                 : credit.Amount*CommonService.MonthLength*
-                  (decimal) credit.PlanOfCredit.Percent/CommonService.YearLength;
+                  (decimal) credit.PlanOfCredit.Percent/100/CommonService.YearLength;
             result.PaymentSchedule = new Dictionary<DateTime, decimal>();
             decimal tempAmount = 0;
             for (int i = credit.StartDate+CommonService.MonthLength; i <= credit.EndDate; i+=CommonService.MonthLength)
@@ -116,12 +120,12 @@ namespace BL.Services.Credit
             if (credit.PlanOfCredit.Anuity)
             {
                 percentAmount = credit.Amount/(credit.EndDate - credit.StartDate) +
-                                credit.Amount*(decimal) credit.PlanOfCredit.Percent/
+                                credit.Amount*(decimal) credit.PlanOfCredit.Percent/100/
                                 CommonService.YearLength;
             }
             else
             {
-                percentAmount = credit.Amount*(decimal) credit.PlanOfCredit.Percent/
+                percentAmount = credit.Amount*(decimal) credit.PlanOfCredit.Percent/100/
                                 CommonService.YearLength;
             }
             TransactionService.CommitTransaction(credit.PercentAccount, AccountService.GetDevelopmentFundAccount(),

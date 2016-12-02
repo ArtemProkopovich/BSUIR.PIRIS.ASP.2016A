@@ -7,6 +7,7 @@ using WebApplication.Models.ViewModels;
 using BL.Services.Client;
 using BL.Services.Client.Models;
 using Microsoft.Practices.Unity;
+using WebApplication.Infrastructure;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
 
 namespace WebApplication.Controllers
@@ -15,26 +16,32 @@ namespace WebApplication.Controllers
     {
         [Dependency]
         public IClientService ClientService { get; set; }
-        
+
+        public IMapper Mapper { get; set; }
+
+        public ClientController()
+        {
+            Mapper = MappingRegistrar.CreareMapper();
+        }
 
         // GET: Client
         public ActionResult Index()
         {
             var clients = ClientService.GetAll();
-            return View(clients.Select(Mapper.Map<ClientModel, Client>));
+            return View(clients.Select(e => e.ToClient(ClientService)));
         }
 
         // GET: Client/Details/5
         public ActionResult Details(int id)
         {
             var client = ClientService.Get(id);
-            return View(Mapper.Map<ClientModel, Client>(client));
+            return View(client.ToClient(ClientService));
         }
 
         // GET: Client/Create
         public ActionResult Create()
         {
-            return View(Mapper.Map<Client, Client>(new Client()));
+            return View(new Client().ToClient(ClientService));
         }
 
         // POST: Client/Create
@@ -46,7 +53,7 @@ namespace WebApplication.Controllers
             {
                 try
                 {
-                    var model = ClientService.Add(Mapper.Map<Client, ClientModel>(client));
+                    var model = ClientService.Add(client.ToClientModel(ClientService));
                     return RedirectToAction("Details", new {id = model.Id});
                 }
                 catch (ValidationException ex)
@@ -66,7 +73,7 @@ namespace WebApplication.Controllers
         public ActionResult Edit(int id)
         {
             var client = ClientService.Get(id);
-            return View(Mapper.Map<ClientModel, Client>(client));
+            return View(client.ToClient(ClientService));
         }
 
         // POST: Client/Edit/5
@@ -78,7 +85,7 @@ namespace WebApplication.Controllers
             {
                 try
                 {
-                    ClientService.Update(Mapper.Map<Client, ClientModel>(client));
+                    ClientService.Update(client.ToClientModel(ClientService));
                     return RedirectToAction("Details", new {id = client.Id});
                 }
                 catch (ValidationException ex)
@@ -91,14 +98,14 @@ namespace WebApplication.Controllers
                     return View("Error");
                 }
             }
-            return View(Mapper.Map<Client, Client>(client));
+            return View(client.ToClient(ClientService));
         }
 
         // GET: Client/Delete/5
         public ActionResult Delete(int id)
         {
             var client = ClientService.Get(id);
-            return View(Mapper.Map<ClientModel, Client>(client));
+            return View(client.ToClient(ClientService));
         }
 
         // POST: Client/Delete/5
@@ -109,7 +116,6 @@ namespace WebApplication.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
                 ClientService.Delete(id);
                 return RedirectToAction("Index");
             }

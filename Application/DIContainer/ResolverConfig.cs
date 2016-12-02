@@ -40,8 +40,8 @@ namespace DIContainer
 
             #region services
 
-            kernel.RegisterType<IAccountService, AccountService>();
             kernel.RegisterType<IPlanOfAccountService, PlanOfAccountService>();
+            kernel.RegisterType<IAccountService, AccountService>();           
             kernel.RegisterType<IAtmService, AtmService>();
             kernel.RegisterType<IBankService, BankService>();
             kernel.RegisterType<ICommonService, CommonService>();

@@ -17,12 +17,12 @@ namespace BL.Services.Account
             }
         }
 
-        public PlanOfAccount GetPlanOfAccountByNumber(string number)
+        public PlanOfAccount GetByNumber(string number)
         {
             return Context.PlanOfAccounts.FirstOrDefault(e => e.AccountNumber == number);
         }
 
-        public PlanOfAccount GetPlanOfAccountById(int id)
+        public PlanOfAccount GetById(int id)
         {
             return Context.PlanOfAccounts.FirstOrDefault(e => e.Id == id);
         }

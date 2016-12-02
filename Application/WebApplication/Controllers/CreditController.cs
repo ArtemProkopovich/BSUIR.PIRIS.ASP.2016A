@@ -5,6 +5,7 @@ using AutoMapper;
 using BL.Services.Credit;
 using BL.Services.Credit.Models;
 using Microsoft.Practices.Unity;
+using WebApplication.Infrastructure;
 using WebApplication.Models.ViewModels;
 
 namespace WebApplication.Controllers
@@ -13,6 +14,8 @@ namespace WebApplication.Controllers
     {
         [Dependency]
         public ICreditService CreditService { get; set; }
+
+        public IMapper Mapper { get; set; } = MappingRegistrar.CreareMapper();
 
         public ActionResult Index()
         {

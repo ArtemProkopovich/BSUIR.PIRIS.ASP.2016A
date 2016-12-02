@@ -98,7 +98,6 @@
     <Compile Include="Services\Common\CommonService.cs" />
     <Compile Include="Services\Common\IBankService.cs" />
     <Compile Include="Services\Common\Model\ServiceException.cs" />
-    <Compile Include="Services\Common\Model\SystemVariableModel.cs" />
     <Compile Include="Services\Credit\CreditService.cs" />
     <Compile Include="Services\Credit\ICreditService.cs" />
     <Compile Include="Services\Credit\Models\CreditModel.cs" />
@@ -111,6 +110,7 @@
     <Compile Include="Services\Transaction\ITransactionService.cs" />
     <Compile Include="Services\Transaction\Models\TransactionModel.cs" />
     <Compile Include="Services\Transaction\TransactionService.cs" />
+    <Compile Include="Services\Utilities\MappingRegistrar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

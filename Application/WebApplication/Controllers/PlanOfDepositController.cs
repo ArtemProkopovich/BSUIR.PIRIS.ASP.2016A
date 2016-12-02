@@ -5,6 +5,7 @@ using AutoMapper;
 using BL.Services.Deposit;
 using BL.Services.Deposit.Models;
 using Microsoft.Practices.Unity;
+using WebApplication.Infrastructure;
 using WebApplication.Models.ViewModels;
 
 namespace WebApplication.Controllers
@@ -13,6 +14,8 @@ namespace WebApplication.Controllers
     {
         [Dependency]
         public IPlanOfDepositService PlanService { get; set; }
+
+        public IMapper Mapper { get; set; } =MappingRegistrar.CreareMapper();
 
         public ActionResult Index()
         {
@@ -23,7 +26,7 @@ namespace WebApplication.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return View(new PlanOfDeposit());
         }
 
         [HttpPost]

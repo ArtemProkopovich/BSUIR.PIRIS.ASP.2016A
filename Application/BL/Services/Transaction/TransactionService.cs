@@ -15,9 +15,9 @@ namespace BL.Services.Transaction
     public class TransactionService : BaseService, ITransactionService
     {
         [Dependency]
-        IAccountService AccountService { get; set; }
+        public IAccountService AccountService { get; set; }
         [Dependency]
-        ICommonService CommonService { get; set; }
+        public ICommonService CommonService { get; set; }
 
         public TransactionService(AppContext context) : base(context)
         {
@@ -81,6 +81,7 @@ namespace BL.Services.Transaction
             };
 
             Context.Transactions.Add(trs);
+            Context.SaveChanges();
         }
 
         public IEnumerable<TransactionModel> GetAll()

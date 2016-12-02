@@ -8,8 +8,8 @@ namespace BL.Services.Account
     {
         IEnumerable<PlanOfAccountModel> GetAll();
 
-        PlanOfAccount GetPlanOfAccountByNumber(string number);
+        PlanOfAccount GetByNumber(string number);
 
-        PlanOfAccount GetPlanOfAccountById(int id);
+        PlanOfAccount GetById(int id);
     }
 }

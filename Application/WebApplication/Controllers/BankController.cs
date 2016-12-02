@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using BL.Services.Common;
 using BL.Services.Transaction;
 using Microsoft.Practices.Unity;
+using WebApplication.Infrastructure;
 
 namespace WebApplication.Controllers
 {
@@ -19,6 +21,8 @@ namespace WebApplication.Controllers
 
         [Dependency]
         public ICommonService CommonService { get; set; }
+
+        public IMapper Mapper { get; set; } = MappingRegistrar.CreareMapper();
 
         public ActionResult CloseBankDay(string returnUrl)
         {

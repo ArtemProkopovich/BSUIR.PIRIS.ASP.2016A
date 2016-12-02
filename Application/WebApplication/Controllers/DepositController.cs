@@ -2,9 +2,12 @@
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using BL.Services.Client;
+using BL.Services.Common;
 using BL.Services.Deposit;
 using BL.Services.Deposit.Models;
 using Microsoft.Practices.Unity;
+using WebApplication.Infrastructure;
 using WebApplication.Models.ViewModels;
 
 namespace WebApplication.Controllers
@@ -14,49 +17,60 @@ namespace WebApplication.Controllers
         [Dependency]
         public IDepositService DepositService { get; set; }
 
+        [Dependency]
+        public IPlanOfDepositService PlanOfDepositService { get; set; }
+
+        [Dependency]
+        public IClientService ClientService { get; set; }
+
+        [Dependency]
+        public ICommonService CommonService { get; set; }
+
+        public IMapper Mapper { get; set; } = MappingRegistrar.CreareMapper();
+
         public ActionResult Index()
         {
             var deposits = DepositService.GetAll();
-            return View(deposits.Select(Mapper.Map<DepositModel, Deposit>));
+            return View(deposits.Select(e => e.ToDeposit(CommonService)));
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return View(new CreateDepositModel().ToCreateDepositModel(PlanOfDepositService, ClientService));
         }
 
         [HttpPost]
-        public ActionResult Create(Deposit deposit)
+        public ActionResult Create(CreateDepositModel deposit)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    DepositService.Create(Mapper.Map<Deposit, DepositModel>(deposit));
+                    DepositService.Create(Mapper.Map<CreateDepositModel, DepositModel>(deposit));
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", ex.Message);
-                    return View(Mapper.Map<Deposit, CreateDepositModel>(deposit));
+                    return View(deposit.ToCreateDepositModel(PlanOfDepositService, ClientService));
                 }
             }
-            return View(Mapper.Map<Deposit, CreateDepositModel>(deposit));
+            return View(deposit.ToCreateDepositModel(PlanOfDepositService, ClientService));
         }
 
         [HttpGet]
         public ActionResult Details(int depositId)
         {
             var deposit = DepositService.Get(depositId);
-            return View(Mapper.Map<DepositModel,Deposit>(deposit));
+            return View(deposit.ToDeposit(CommonService));
         }
 
         [HttpPost]
         public ActionResult TakePercents(int depositId)
         {
             DepositService.WithdrawPercents(depositId);
-            return RedirectToAction("Details", new { depositId = depositId });
+            return RedirectToAction("Details", new {depositId = depositId});
         }
 
         [HttpPost]

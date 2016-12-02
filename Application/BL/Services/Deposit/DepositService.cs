@@ -18,13 +18,16 @@ namespace BL.Services.Deposit
     public class DepositService : BaseService, IDepositService
     {
         [Dependency]
-        IAccountService AccountService { get; set; }
+        public IPlanOfAccountService PlanOfAccountService { get; set; }
 
         [Dependency]
-        ICommonService BankService { get; set; }
+        public IAccountService AccountService { get; set; }
 
-        [Dependency] 
-        ITransactionService TransactionService { get; set; }
+        [Dependency]
+        public ICommonService BankService { get; set; }
+
+        [Dependency]
+        public ITransactionService TransactionService { get; set; }
 
         public DepositService(AppContext context) : base(context)
         {
@@ -43,7 +46,9 @@ namespace BL.Services.Deposit
             dbDeposit.EndDate = dbDeposit.StartDate + dbDeposit.PlanOfDeposit.BankDayPeriod;
             dbDeposit.Amount = deposit.Amount;
 
-            HoldMoneyOnDeposit(dbDeposit);  
+            HoldMoneyOnDeposit(dbDeposit);
+
+            Context.Deposits.Add(dbDeposit);
                     
             Context.SaveChanges();
         }
@@ -74,7 +79,7 @@ namespace BL.Services.Deposit
 
         private void CommitPercents(ORMLibrary.Deposit deposit)
         {
-            decimal percentAmount = deposit.Amount*(decimal) (deposit.PlanOfDeposit.Percent/BankService.YearLength);
+            decimal percentAmount = deposit.Amount*(decimal) (deposit.PlanOfDeposit.Percent/100/BankService.YearLength);
             TransactionService.CommitTransaction(AccountService.GetDevelopmentFundAccount(), deposit.PercentAccount,
                 percentAmount);
         }

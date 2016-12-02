@@ -160,7 +160,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\MapperRegistrar.cs" />
+    <Compile Include="Infrastructure\MappingRegistrar.cs" />
     <Compile Include="Models\ViewModels\Client.cs" />
     <Compile Include="Models\ViewModels\CreateCreditModel.cs" />
     <Compile Include="Models\ViewModels\CreateDepositModel.cs" />
@@ -233,17 +233,16 @@
     <Content Include="Views\Client\Create.cshtml" />
     <Content Include="Views\Client\Edit.cshtml" />
     <Content Include="Views\Client\Delete.cshtml" />
-    <Content Include="Views\Deposit\Create.cshtml" />
-    <Content Include="Views\Credit\Create.cshtml" />
     <Content Include="Views\Credit\Details.cshtml" />
     <Content Include="Views\Credit\Index.cshtml" />
     <Content Include="Views\Credit\Schedule.cshtml" />
-    <Content Include="Views\PlanOfCredit\Create.cshtml" />
     <Content Include="Views\PlanOfCredit\Index.cshtml" />
-    <Content Include="Views\PlanOfDeposit\Create.cshtml" />
     <Content Include="Views\PlanOfDeposit\Index.cshtml" />
     <Content Include="Views\Deposit\Details.cshtml" />
     <Content Include="Views\Deposit\Index.cshtml" />
+    <Content Include="Views\PlanOfDeposit\Create.cshtml" />
+    <Content Include="Views\PlanOfCredit\Create.cshtml" />
+    <Content Include="Views\Deposit\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Atm\" />

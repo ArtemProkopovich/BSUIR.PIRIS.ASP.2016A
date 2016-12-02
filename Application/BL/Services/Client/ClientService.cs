@@ -5,6 +5,7 @@ using System.Linq;
 using AutoMapper;
 using BL.Services.Client.Models;
 using BL.Services.Common.Model;
+using BL.Services.Utilities;
 using ORMLibrary;
 using AppContext = ORMLibrary.AppContext;
 
@@ -148,6 +149,7 @@ namespace BL.Services.Client
                 new Citizenship() {Country = "Lithuania"},
                 new Citizenship() {Country = "Latvia"},
             });
+            Context.SaveChanges();
         }
     }
 }

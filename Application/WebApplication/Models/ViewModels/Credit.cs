@@ -15,7 +15,7 @@ namespace WebApplication.Models.ViewModels
         public decimal Amount { get; set; }
         public string CreditCardNumber { get; set; }
         public string CreditCardPin { get; set; }
-        public virtual Client Client { get; set; }
-        public virtual PlanOfCredit PlanOfCredit { get; set; }
+        public Client Client { get; set; }
+        public PlanOfCredit PlanOfCredit { get; set; }
     }
 }
