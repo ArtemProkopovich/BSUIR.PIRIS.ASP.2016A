@@ -47,7 +47,9 @@ namespace WebApplication.Infrastructure
                 #region CreditMapper
 
                 e.CreateMap<CreditModel, Credit>();
-                e.CreateMap<Credit, CreditModel>();               
+                e.CreateMap<Credit, CreditModel>();
+                e.CreateMap<CreateCreditModel, CreditModel>();
+                e.CreateMap<PlanOfPaymentModel, PlanOfPayment>();
 
                 #endregion
 
@@ -124,6 +126,20 @@ namespace WebApplication.Infrastructure
             return Mapper.Map<CreditModel, CreateCreditModel>(credit);
         }
 
+        public static CreateCreditModel ToCreateCreditModel(this CreateCreditModel credit, IPlanOfCreditService planService, IClientService clientService)
+        {
+            Mapper.Initialize(e => {
+                e.CreateMap<ClientModel, Client>();
+                e.CreateMap<PlanOfCreditModel, PlanOfCredit>();
+                e.CreateMap<CreateCreditModel, CreateCreditModel>()
+                    .ForMember(t => t.CreditPlans, t => t.MapFrom(
+                        r => planService.GetAll().Select(Mapper.Map<PlanOfCreditModel, PlanOfCredit>)))
+                    .ForMember(t => t.Clients,
+                        t => t.MapFrom(r => clientService.GetAll().Select(y => y.ToClient(clientService))));
+            });
+            return Mapper.Map<CreateCreditModel, CreateCreditModel>(credit);
+        }
+
         public static CreateDepositModel ToCreateDepositModel(this DepositModel deposit, IPlanOfDepositService planService, IClientService clientService)
         {
             Mapper.Initialize(e => e.CreateMap<DepositModel, CreateDepositModel>()
@@ -150,6 +166,34 @@ namespace WebApplication.Infrastructure
             return Mapper.Map<CreateDepositModel, CreateDepositModel>(deposit);
         }
 
+        public static Credit ToCredit(this CreditModel credit, ICommonService commonService)
+        {
+            Mapper.Initialize(e =>
+            {
+                e.CreateMap<ClientModel, Client>();
+                e.CreateMap<PlanOfCreditModel, PlanOfCredit>();
+                e.CreateMap<CreditModel, Credit>()
+                    .ForMember(t => t.StartDate,
+                        t => t.MapFrom(r => commonService.StartDate + new TimeSpan(r.StartDate, 0, 0, 0)))
+                    .ForMember(t => t.EndDate,
+                        t => t.MapFrom(r => commonService.StartDate + new TimeSpan(r.EndDate, 0, 0, 0)))
+                    .ForMember(t => t.CurrentPercentAmount, t => t.MapFrom(r => Math.Abs(r.PercentAccount.Balance)))
+                    .ForMember(t => t.IsCanCloseToday,
+                        t =>
+                            t.MapFrom(
+                                r =>
+                                    (r.EndDate < commonService.CurrentBankDay) &&
+                                    r.Amount > 0))
+                    .ForMember(t => t.IsCanPayPercentToday,
+                        t =>
+                            t.MapFrom(
+                                r =>
+                                    (commonService.CurrentBankDay - r.StartDate)%commonService.MonthLength == 0 &&
+                                    r.Amount > 0));
+            });
+            return Mapper.Map<CreditModel, Credit>(credit);
+        }
+
         public static Deposit ToDeposit(this DepositModel deposit, ICommonService commonService)
         {
             Mapper.Initialize(e =>
@@ -163,7 +207,20 @@ namespace WebApplication.Infrastructure
                     .ForMember(t => t.StartDate,
                         t => t.MapFrom(r => commonService.StartDate + new TimeSpan(r.StartDate, 0, 0, 0)))
                     .ForMember(t => t.EndDate,
-                        t => t.MapFrom(r => commonService.StartDate + new TimeSpan(r.EndDate, 0, 0, 0)));
+                        t => t.MapFrom(r => commonService.StartDate + new TimeSpan(r.EndDate, 0, 0, 0)))
+                    .ForMember(t => t.IsCanCloseToday,
+                        t =>
+                            t.MapFrom(
+                                r =>
+                                    (r.PlanOfDeposit.Revocable || r.EndDate < commonService.CurrentBankDay) &&
+                                    r.Amount > 0))
+                    .ForMember(t => t.IsCanWithdrawPercentsToday,
+                        t =>
+                            t.MapFrom(
+                                r =>
+                                    !r.PlanOfDeposit.Revocable &&
+                                    (commonService.CurrentBankDay - r.StartDate)%commonService.MonthLength == 0 &&
+                                    r.Amount > 0));
             });
             return Mapper.Map<DepositModel, Deposit>(deposit);
         }

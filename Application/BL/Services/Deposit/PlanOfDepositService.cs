@@ -14,7 +14,7 @@ namespace BL.Services.Deposit
         [Dependency]
         public IPlanOfAccountService PlanService { get; set; }
 
-        public PlanOfDepositService(ORMLibrary.AppContext context) : base(context)
+        public PlanOfDepositService() : base()
         {
         }
 

@@ -11,19 +11,19 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.PlanId)
+            @Html.DisplayNameFor(model => model.PlanOfDeposit)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PlanId)
+            @($"{Model.PlanOfDeposit.Name} with {Model.PlanOfDeposit.Percent}% per year")
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ClientId)
+            @Html.DisplayNameFor(model => model.Client)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ClientId)
+            @Html.ActionLink($"{Model.Client.Surname} {Model.Client.Name} {Model.Client.FatherName}", "Details", "Client",new { id = Model.Client.Id}, new {})
         </dd>
 
         <dt>
@@ -31,7 +31,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StartDate)
+            @($"{Model.StartDate.Date:dd.MM.yyyy}")
         </dd>
 
         <dt>
@@ -39,7 +39,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EndDate)
+            @($"{Model.EndDate.Date:dd.MM.yyyy}")
         </dd>
 
         <dt>
@@ -68,6 +68,24 @@
 
     </dl>
 </div>
+<p>
+    @if (Model.IsCanCloseToday)
+    {
+        using (Html.BeginForm("CloseDeposit", "Deposit", new {depositId = Model.Id}, FormMethod.Post))
+        {
+            <button class="btn btn-default" type="submit">Close deposit</button>
+        }
+    }
+</p>
+<p>
+    @if (Model.IsCanWithdrawPercentsToday)
+    {
+        using (Html.BeginForm("TakePercents", "Deposit", new { depositId = Model.Id }, FormMethod.Post))
+        {
+            <button class="btn btn-default" type="submit">Take percents</button>
+        }
+    }
+</p>
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>

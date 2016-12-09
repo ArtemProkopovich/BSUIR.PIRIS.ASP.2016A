@@ -13,7 +13,7 @@ namespace WebApplication.Models.ViewModels
         public int Id { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [Display(Name = "Deposit name")]
+        [Display(Name = "Credit name")]
         public string Name { get; set; }
 
         [Required]

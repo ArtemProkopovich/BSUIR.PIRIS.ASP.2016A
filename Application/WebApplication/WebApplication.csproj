@@ -149,6 +149,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AtmController.cs" />
     <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
@@ -178,6 +179,7 @@
       <DependentUpon>db.mdf</DependentUpon>
     </Content>
     <Content Include="App_Data\delete_client.sql" />
+    <Content Include="App_Data\drop_id.sql" />
     <Content Include="App_Data\init_db.sql" />
     <Content Include="App_Data\insert_client.sql" />
     <Content Include="App_Data\select_clients.sql" />
@@ -243,8 +245,10 @@
     <Content Include="Views\PlanOfDeposit\Create.cshtml" />
     <Content Include="Views\PlanOfCredit\Create.cshtml" />
     <Content Include="Views\Deposit\Create.cshtml" />
+    <Content Include="Views\Credit\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Account\" />
     <Folder Include="Views\Atm\" />
   </ItemGroup>
   <ItemGroup>

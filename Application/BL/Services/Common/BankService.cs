@@ -13,14 +13,15 @@ namespace BL.Services.Common
     public class BankService : BaseService, IBankService
     {
         [Dependency]
-        ICreditService CreditService { get; set; }
+        public ICreditService CreditService { get; set; }
 
         [Dependency]
-        IDepositService DepositService { get; set; } 
+        public IDepositService DepositService { get; set; } 
 
-        ICommonService CommonService { get; set; }
+        [Dependency]
+        public ICommonService CommonService { get; set; }
 
-        public BankService(AppContext context) : base(context)
+        public BankService() : base()
         {
         }
 

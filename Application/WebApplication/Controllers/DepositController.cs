@@ -69,15 +69,31 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult TakePercents(int depositId)
         {
-            DepositService.WithdrawPercents(depositId);
-            return RedirectToAction("Details", new {depositId = depositId});
+            try
+            {
+                DepositService.WithdrawPercents(depositId);
+                return RedirectToAction("Details", new {depositId = depositId});
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError("", ex);
+                return RedirectToAction("Details", new { depositId = depositId });
+            }
         }
 
         [HttpPost]
         public ActionResult CloseDeposit(int depositId)
         {
-            DepositService.CloseDeposit(depositId);
-            return RedirectToAction("Details", new {depositId = depositId});
+            try
+            {
+                DepositService.CloseDeposit(depositId);
+                return RedirectToAction("Details", new {depositId = depositId});
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError("", ex);
+                return RedirectToAction("Details", new {depositId = depositId});
+            }
         }
     }
 }

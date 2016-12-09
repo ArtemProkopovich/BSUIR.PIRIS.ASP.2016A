@@ -14,7 +14,7 @@ namespace BL.Services.Credit
         [Dependency]
         public IPlanOfAccountService PlanService { get; set; }
 
-        public PlanOfCreditService(AppContext context) : base(context)
+        public PlanOfCreditService() : base()
         {
         }
 

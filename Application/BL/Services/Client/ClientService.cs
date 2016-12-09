@@ -13,7 +13,7 @@ namespace BL.Services.Client
 {
     public class ClientService : BaseService, IClientService
     {
-        public ClientService(AppContext context) : base(context)
+        public ClientService() : base()
         {
             if (!Context.Disabilities.Any())
             {

@@ -9,7 +9,7 @@ namespace BL.Services.Account
 {
     public class PlanOfAccountService : BaseService, IPlanOfAccountService
     {
-        public PlanOfAccountService(ORMLibrary.AppContext context) : base(context)
+        public PlanOfAccountService() : base()
         {
             if (!Context.PlanOfAccounts.Any())
             {

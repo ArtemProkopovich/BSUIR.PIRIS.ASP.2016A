@@ -8,6 +8,7 @@ namespace BL.Services.Credit.Models
 {
     public class PlanOfPaymentModel
     {
+        public int CreditId { get; set; }
         public DateTime CurrentDay { get; set; }
         public IDictionary<DateTime, decimal> PaymentSchedule { get; set; }
     }

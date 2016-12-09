@@ -106,7 +106,7 @@
     <Compile Include="Services\Deposit\IDepositService.cs" />
     <Compile Include="Services\Deposit\Models\DepositModel.cs" />
     <Compile Include="Services\Deposit\Models\PlanOfDepositModel.cs" />
-    <Compile Include="Services\IBaseService.cs" />
+    <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\Transaction\ITransactionService.cs" />
     <Compile Include="Services\Transaction\Models\TransactionModel.cs" />
     <Compile Include="Services\Transaction\TransactionService.cs" />

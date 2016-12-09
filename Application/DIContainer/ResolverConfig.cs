@@ -31,7 +31,7 @@ namespace DIContainer
         {
             if (isWeb)
             {
-                kernel.RegisterType<AppContext, AppContext>();
+                kernel.RegisterType<AppContext, AppContext>(new PerThreadLifetimeManager());
             }
             else
             {

@@ -9,7 +9,7 @@ namespace BL.Services.Credit
 {
     public interface ICreditService
     {
-        void Create(CreditModel credit);
+        void Create(CreditModel credit, bool isCardNeeded);
         CreditModel Get(int id);
         IEnumerable<CreditModel> GetAll();
         PlanOfPaymentModel GetPaymentSchedule(int creditId);

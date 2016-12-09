@@ -12,6 +12,8 @@ namespace WebApplication.Models.ViewModels
         public decimal Amount { get; set; }
         public decimal CurrentPercentAmount { get; set; }
         public decimal PercentAmountForDay { get; set; }
+        public bool IsCanWithdrawPercentsToday { get; set; }
+        public bool IsCanCloseToday { get; set; }
         public Client Client { get; set; }
         public PlanOfDeposit PlanOfDeposit { get; set; }
     }

@@ -12,7 +12,7 @@ namespace BL.Services.Account
 {
     public class AccountService : BaseService, IAccountService
     {
-        public AccountService(ORMLibrary.AppContext context) : base(context)
+        public AccountService() : base()
         {
             if (!Context.Accounts.Any())
             {
@@ -96,7 +96,7 @@ namespace BL.Services.Account
         {
             if (clientId == 0)
                 return accountPlanNumber + "000000000";
-            return $"{accountPlanNumber}{clientId:5}{number++:4}";
+            return $"{accountPlanNumber}{clientId:0000}{number++:0000}1";
         }
 
         public ORMLibrary.Account GetCashDeskAccount()

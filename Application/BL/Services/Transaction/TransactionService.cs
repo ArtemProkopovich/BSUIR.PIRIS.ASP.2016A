@@ -19,7 +19,7 @@ namespace BL.Services.Transaction
         [Dependency]
         public ICommonService CommonService { get; set; }
 
-        public TransactionService(AppContext context) : base(context)
+        public TransactionService() : base()
         {
         }
 
@@ -33,7 +33,7 @@ namespace BL.Services.Transaction
         public void WithDrawCashDeskTransaction(decimal amount)
         {
             var account = AccountService.GetCashDeskAccount();
-            account.CreditValue -= amount;
+            account.CreditValue += amount;
             account.Balance = account.DebitValue - account.CreditValue;
         }
 
@@ -52,24 +52,24 @@ namespace BL.Services.Transaction
         {
             if (debitAccount.PlanOfAccount.AccountType == "P")
             {
-                debitAccount.DebitValue -= amount;
+                debitAccount.DebitValue += amount;
                 debitAccount.Balance = debitAccount.CreditValue - debitAccount.DebitValue;
             }
             else
             {
-                debitAccount.CreditValue -= amount;
+                debitAccount.CreditValue += amount;
                 debitAccount.Balance = debitAccount.DebitValue - debitAccount.CreditValue;
             }
 
             if (creditAccount.PlanOfAccount.AccountType == "P")
             {
-                debitAccount.CreditValue += amount;
-                debitAccount.Balance = debitAccount.CreditValue - debitAccount.DebitValue;
+                creditAccount.CreditValue += amount;
+                creditAccount.Balance = creditAccount.CreditValue - creditAccount.DebitValue;
             }
             else
             {
-                debitAccount.DebitValue += amount;
-                debitAccount.Balance = debitAccount.DebitValue - debitAccount.CreditValue;
+                creditAccount.DebitValue += amount;
+                creditAccount.Balance = creditAccount.DebitValue - creditAccount.CreditValue;
             }
 
             ORMLibrary.Transaction trs = new ORMLibrary.Transaction()
@@ -81,7 +81,6 @@ namespace BL.Services.Transaction
             };
 
             Context.Transactions.Add(trs);
-            Context.SaveChanges();
         }
 
         public IEnumerable<TransactionModel> GetAll()

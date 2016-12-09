@@ -23,9 +23,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Anuity)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MinAmount)
-        </th>
         <th></th>
     </tr>
 
@@ -38,13 +35,10 @@
             @Html.DisplayFor(modelItem => item.BankDayPeriod)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => $"{item.Percent * 100:0.00}%")
+            @Html.DisplayFor(modelItem => item.Percent)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Anuity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MinAmount)
         </td>
     </tr>
 }

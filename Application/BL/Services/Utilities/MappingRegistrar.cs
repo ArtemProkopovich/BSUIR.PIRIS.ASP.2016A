@@ -32,9 +32,11 @@ namespace BL.Services.Utilities
 
                 e.CreateMap<PlanOfAccount, PlanOfAccountModel>();
 
-                e.CreateMap<PlanOfCredit, PlanOfCreditModel>()
+                e.CreateMap<PlanOfCredit, PlanOfCreditModel>();
+                e.CreateMap<PlanOfCreditModel, PlanOfCredit>()
                     .ForMember(r => r.MainPlanOfAccount, r => r.Ignore())
                     .ForMember(r => r.PercentPlanOfAccount, r => r.Ignore());
+
                 e.CreateMap<PlanOfDeposit, PlanOfDepositModel>();
                 e.CreateMap<PlanOfDepositModel, PlanOfDeposit>()
                     .ForMember(r => r.MainPlanOfAccount, r => r.Ignore())

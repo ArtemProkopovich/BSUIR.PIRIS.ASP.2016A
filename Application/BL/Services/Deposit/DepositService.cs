@@ -29,7 +29,7 @@ namespace BL.Services.Deposit
         [Dependency]
         public ITransactionService TransactionService { get; set; }
 
-        public DepositService(AppContext context) : base(context)
+        public DepositService() : base()
         {
         }
 
@@ -46,10 +46,10 @@ namespace BL.Services.Deposit
             dbDeposit.EndDate = dbDeposit.StartDate + dbDeposit.PlanOfDeposit.BankDayPeriod;
             dbDeposit.Amount = deposit.Amount;
 
-            HoldMoneyOnDeposit(dbDeposit);
-
             Context.Deposits.Add(dbDeposit);
-                    
+            Context.SaveChanges();
+
+            HoldMoneyOnDeposit(dbDeposit);
             Context.SaveChanges();
         }
 
@@ -69,8 +69,8 @@ namespace BL.Services.Deposit
             var deposits =
                 Context.Deposits.Where(
                     e =>
-                        e.StartDate > BankService.CurrentBankDay && e.EndDate < BankService.CurrentBankDay &&
-                        e.Amount >= 0);
+                        BankService.CurrentBankDay >= e.StartDate && BankService.CurrentBankDay <= e.EndDate &&
+                        e.Amount > 0).ToArray();
             foreach (var deposit in deposits)
             {
                 CommitPercents(deposit);
@@ -87,7 +87,7 @@ namespace BL.Services.Deposit
         public void WithdrawPercents(int id)
         {
             var deposit = Context.Deposits.FirstOrDefault(e => e.Id == id);
-            if (!deposit.PlanOfDeposit.Revocable)
+            if (deposit.PlanOfDeposit.Revocable)
             {
                 throw new ServiceException("Cannot withdraw percents before deposit program ended.");
             }
@@ -95,10 +95,10 @@ namespace BL.Services.Deposit
             {
                 throw new ServiceException("Cannot withdraw percents before month ended.");
             }
-
+            var percentAmount = deposit.PercentAccount.Balance;
             TransactionService.CommitTransaction(deposit.PercentAccount, AccountService.GetCashDeskAccount(),
-                deposit.PercentAccount.CreditValue);
-            TransactionService.WithDrawCashDeskTransaction(deposit.PercentAccount.CreditValue);
+                percentAmount);
+            TransactionService.WithDrawCashDeskTransaction(percentAmount);
 
             Context.SaveChanges();
         }
@@ -113,9 +113,9 @@ namespace BL.Services.Deposit
                 throw new SystemException("Deposit already have been closed.");
 
             TransactionService.CommitTransaction(AccountService.GetDevelopmentFundAccount(), deposit.MainAccount,
-                    deposit.MainAccount.CreditValue);
+                    deposit.Amount);
             TransactionService.CommitTransaction(deposit.MainAccount, AccountService.GetCashDeskAccount(),
-                deposit.MainAccount.CreditValue);
+                deposit.Amount);
 
             var percentBalance = deposit.PercentAccount.Balance;
             TransactionService.CommitTransaction(deposit.PercentAccount, AccountService.GetCashDeskAccount(),

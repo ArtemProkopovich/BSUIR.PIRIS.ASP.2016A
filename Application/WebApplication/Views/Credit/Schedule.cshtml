@@ -6,21 +6,29 @@
 
 <h2>Schedule</h2>
 
-<div>
-    <h4>PlanOfPayment</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentDay)
-        </dt>
+<table class="table">
+    <tr>
+        <th>
+            @("Payment day")
+        </th>
+        <th>
+            @("Payment amount")
+        </th>
+    </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.CurrentDay)
-        </dd>
-
-    </dl>
-</div>
+    @foreach (var item in Model.PaymentSchedule)
+    {
+        string style = item.Key < Model.CurrentDay ? "Green" : "FireBrick";
+        <tr  style="background-color:@style">
+            <td>
+                @Html.DisplayFor(modelItem => item.Key)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Value)
+            </td>
+        </tr>
+    }
+</table>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to credit details", "Details", new { creditId = Model.CreditId })
 </p>
