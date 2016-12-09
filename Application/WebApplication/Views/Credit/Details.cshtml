@@ -23,7 +23,7 @@
         </dt>
 
         <dd>
-            @Html.ActionLink($"{Model.Client.Surname} {Model.Client.Name} {Model.Client.FatherName}","Details","Client",new {},new {id = Model.ClientId})
+            @Html.ActionLink($"{Model.Client.Surname} {Model.Client.Name} {Model.Client.FatherName}", "Details", "Client", new { }, new { id = Model.ClientId })
         </dd>
 
         <dt>
@@ -49,7 +49,7 @@
         <dd>
             @Html.DisplayFor(model => model.Amount)
         </dd>
-        
+
         <dt>
             @Html.DisplayNameFor(model => model.CurrentPercentAmount)
         </dt>
@@ -65,9 +65,32 @@
         <dd>
             @Html.ActionLink("Go to the schedule page", "PaymentSchedule", new { creditId = Model.Id })
         </dd>
-
     </dl>
 </div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="col-md-6">
+            @if (Model.IsCanCloseToday)
+            {
+                using (Html.BeginForm("CloseCredit", "Credit", new { creditId = Model.Id }, FormMethod.Post))
+                {
+                    <button class="btn btn-default" type="submit">Close deposit</button>
+                }
+            }
+        </div>
+        <div class="col-md-6">
+            @if (Model.IsCanPayPercentToday)
+            {
+                using (Html.BeginForm("PayPercents", "Credit", new { creditId = Model.Id }, FormMethod.Post))
+                {
+                    <button class="btn btn-default" type="submit">Take percents</button>
+                }
+            }
+        </div>
+    </div>
+</div>
+
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>

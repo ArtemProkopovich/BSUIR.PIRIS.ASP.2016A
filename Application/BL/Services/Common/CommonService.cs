@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Linq;
 
 namespace BL.Services.Common
 {
-    public class CommonService : ICommonService
+    public class CommonService : BaseService, ICommonService
     {
 
         static CommonService() { }
 
-        public static int currentBankDay;
+        public static int currentBankDay = Context.Transactions?.Max(e => e.TransactionDay) ?? 0;
         public static DateTime startDate = DateTime.Now;
 
         public int MonthLength { get; } = 30;

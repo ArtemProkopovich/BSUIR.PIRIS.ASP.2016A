@@ -182,7 +182,7 @@ namespace WebApplication.Infrastructure
                         t =>
                             t.MapFrom(
                                 r =>
-                                    (r.EndDate < commonService.CurrentBankDay) &&
+                                    (r.EndDate <= commonService.CurrentBankDay) &&
                                     r.Amount > 0))
                     .ForMember(t => t.IsCanPayPercentToday,
                         t =>

@@ -179,7 +179,7 @@ namespace BL.Services.Credit
                 throw new ServiceException("Cannot pay percents for closed credit.");
             }
 
-            var amount = credit.PercentAccount.Balance;
+            var amount = Math.Abs(credit.PercentAccount.Balance);
             TransactionService.WithDrawCashDeskTransaction(amount);
             TransactionService.CommitTransaction(AccountService.GetCashDeskAccount(), credit.PercentAccount, amount);
         }
