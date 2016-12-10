@@ -100,7 +100,7 @@ namespace BL.Services.Transaction
 
         public IEnumerable<TransactionModel> GetAllByDay(int bankDayNumber)
         {
-            return Context.Transactions.Reverse().ToArray().Select(Mapper.Map<ORMLibrary.Transaction, TransactionModel>);
+            return Context.Transactions.ToArray().Reverse().Select(Mapper.Map<ORMLibrary.Transaction, TransactionModel>);
         }
     }
 }

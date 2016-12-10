@@ -9,6 +9,8 @@ namespace BL.Services.Common
 {
     public interface IBankService
     {
+        AccountReportModel GenerateAccountReport();
+        TransactionReportModel GenerateTransactionReport(int day);
         void CloseBankDay();
         void CloseBankMonth();
         void CloseBankYear();

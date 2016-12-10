@@ -5,6 +5,7 @@ namespace BL.Services.ATM
     public interface IAtmService
     {
         CreditModel LoginUser(string creditCardNumber, string pin);
-        void WithDrawMoney(string creditCardNumber, string pin, decimal amount);
+        void WithDrawMoney(int creditId, decimal amount);
+        void TransferMoney(int creditId, string accountNumber, decimal amount);
     }
 }

@@ -76,7 +76,10 @@ namespace BL.Services.Credit
 
         public IEnumerable<CreditModel> GetAll()
         {
-            return Context.Credits.ToArray().Select(Mapper.Map<ORMLibrary.Credit, CreditModel>);
+            var credits = Context.Credits.ToArray();
+            var openedCredits = credits.Where(e => e.Amount != 0);
+            var closedCredits = credits.Where(e => e.Amount == 0);
+            return openedCredits.Concat(closedCredits).Select(Mapper.Map<ORMLibrary.Credit, CreditModel>);
         }
 
         public PlanOfPaymentModel GetPaymentSchedule(int creditId)

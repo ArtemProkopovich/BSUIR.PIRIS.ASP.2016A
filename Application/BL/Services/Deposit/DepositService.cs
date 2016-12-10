@@ -61,7 +61,10 @@ namespace BL.Services.Deposit
 
         public IEnumerable<DepositModel> GetAll()
         {
-            return Context.Deposits.ToArray().Select(Mapper.Map<ORMLibrary.Deposit, DepositModel>);
+            var deposits = Context.Deposits.ToArray();
+            var openedDeposits = deposits.Where(e => e.Amount != 0);
+            var closedDeposits = deposits.Where(e => e.Amount == 0);
+            return openedDeposits.Concat(closedDeposits).Select(Mapper.Map<ORMLibrary.Deposit, DepositModel>);
         }
 
         public void CloseBankDay()

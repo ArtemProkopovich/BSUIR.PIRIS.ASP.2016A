@@ -13,7 +13,10 @@ namespace WebApplication.Models.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal Amount { get; set; }
+        public decimal Balance { get; set; }
         public decimal CurrentPercentAmount { get; set; }
+        public string CreditCardNumber { get; set; }
+        public string CreditCardPin { get; set; }
         public bool IsCanPayPercentToday { get; set; }
         public bool IsCanCloseToday { get; set; }
         public Client Client { get; set; }

@@ -56,14 +56,10 @@ namespace WebApplication.Controllers
                     var model = ClientService.Add(client.ToClientModel(ClientService));
                     return RedirectToAction("Details", new {id = model.Id});
                 }
-                catch (ValidationException ex)
+                catch (Exception ex)
                 {
                     ModelState.AddModelError("", ex.Message);
                     return View(Mapper.Map<Client, Client>(client));
-                }
-                catch (Exception ex)
-                {
-                    return View("Error");
                 }
             }
             return View(Mapper.Map<Client, Client>(client));

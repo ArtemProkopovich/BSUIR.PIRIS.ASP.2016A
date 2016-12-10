@@ -173,6 +173,8 @@ namespace WebApplication.Infrastructure
                 e.CreateMap<ClientModel, Client>();
                 e.CreateMap<PlanOfCreditModel, PlanOfCredit>();
                 e.CreateMap<CreditModel, Credit>()
+                    .ForMember(t => t.Balance,
+                        t => t.MapFrom(r => r.MainAccount.Balance))
                     .ForMember(t => t.StartDate,
                         t => t.MapFrom(r => commonService.StartDate + new TimeSpan(r.StartDate, 0, 0, 0)))
                     .ForMember(t => t.EndDate,

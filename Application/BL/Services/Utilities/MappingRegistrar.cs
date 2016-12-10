@@ -41,8 +41,8 @@ namespace BL.Services.Utilities
                 e.CreateMap<PlanOfDepositModel, PlanOfDeposit>()
                     .ForMember(r => r.MainPlanOfAccount, r => r.Ignore())
                     .ForMember(r => r.PercentPlanOfAccount, r => r.Ignore());
-                e.CreateMap<ORMLibrary.Account, AccountModel>();
 
+                e.CreateMap<ORMLibrary.Account, AccountModel>();
                 e.CreateMap<AccountModel, ORMLibrary.Account>();
 
                 e.CreateMap<ORMLibrary.Credit, CreditModel>();

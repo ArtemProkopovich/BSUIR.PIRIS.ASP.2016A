@@ -149,7 +149,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AtmController.cs" />
     <Compile Include="Controllers\BankController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
@@ -162,6 +161,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\MappingRegistrar.cs" />
+    <Compile Include="Models\ViewModels\AtmAccountModel.cs" />
+    <Compile Include="Models\ViewModels\AtmLoginModel.cs" />
     <Compile Include="Models\ViewModels\Client.cs" />
     <Compile Include="Models\ViewModels\CreateCreditModel.cs" />
     <Compile Include="Models\ViewModels\CreateDepositModel.cs" />
@@ -246,10 +247,14 @@
     <Content Include="Views\PlanOfCredit\Create.cshtml" />
     <Content Include="Views\Deposit\Create.cshtml" />
     <Content Include="Views\Credit\Create.cshtml" />
+    <Content Include="Views\Bank\Index.cshtml" />
+    <Content Include="Views\Bank\TransactionReport.cshtml" />
+    <Content Include="Views\Bank\AccountReport.cshtml" />
+    <Content Include="Views\Atm\Login.cshtml" />
+    <Content Include="Views\Atm\WorkPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\" />
-    <Folder Include="Views\Atm\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -6,9 +6,21 @@ namespace BL.Services.Common
     public class CommonService : BaseService, ICommonService
     {
 
-        static CommonService() { }
+        static CommonService()
+        {
+            int startDate = 0;
+            try
+            {
+                startDate = Context.Transactions?.Max(e => e.TransactionDay) ?? 0;
+            }
+            catch
+            {
+                
+            }
+            currentBankDay =  startDate;
+        }
 
-        public static int currentBankDay = Context.Transactions?.Max(e => e.TransactionDay) ?? 0;
+        public static int currentBankDay;
         public static DateTime startDate = DateTime.Now;
 
         public int MonthLength { get; } = 30;

@@ -24,34 +24,48 @@ namespace WebApplication.Controllers
 
         public IMapper Mapper { get; set; } = MappingRegistrar.CreareMapper();
 
-        public ActionResult CloseBankDay(string returnUrl)
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult CloseBankDay()
         {
             BankService.CloseBankDay();
-            return new RedirectResult(returnUrl);
+            return RedirectToAction("Index");
         }
 
-        public ActionResult CloseBankMonth(string returnUrl)
+        public ActionResult CloseBankMonth()
         {
             BankService.CloseBankMonth();
-            return new RedirectResult(returnUrl);
+            return RedirectToAction("Index");
         }
 
-        public ActionResult CloseBankYear(string returnUrl)
+        public ActionResult CloseBankYear()
         {
             BankService.CloseBankYear();
-            return new RedirectResult(returnUrl);
+            return RedirectToAction("Index");
         }
 
         public ActionResult DayTransactionsReport()
         {
-            var transactions = TransactionService.GetAllByDay(CommonService.CurrentBankDay);
-            return View("Report", transactions);
+            var report = BankService.GenerateTransactionReport(CommonService.CurrentBankDay);
+            return View("TransactionReport", report);
         }
 
-        public ActionResult AllTransactionsReport()
+        public ActionResult PreviousDayTransactionsReport()
         {
-            var transactions = TransactionService.GetAll();
-            return View("Report", transactions);
+            var report =
+                BankService.GenerateTransactionReport(CommonService.CurrentBankDay == 0
+                    ? 0
+                    : CommonService.CurrentBankDay - 1);
+            return View("TransactionReport", report);
+        }
+
+        public ActionResult AccountReport()
+        {
+            var report = BankService.GenerateAccountReport();
+            return View("AccountReport", report);
         }
     }
 }

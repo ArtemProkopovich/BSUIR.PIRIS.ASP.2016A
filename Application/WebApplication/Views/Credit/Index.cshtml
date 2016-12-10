@@ -25,7 +25,8 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        string style = item.Amount == 0 ? "grey" : "";
+        <tr style="background-color:@style">
             <td>
                 @Html.DisplayFor(modelItem => item.PlanOfCredit.Name)
             </td>
@@ -43,27 +44,4 @@
     }
 
 </table>
-
-<div class="row">
-    <div class="col-md-6">
-        <div class="col-md-4">
-            @using (Html.BeginForm("CloseBankDay", "Bank", new { returnUrl = Url.Action("Index") }, FormMethod.Post))
-            {
-                <button type="submit" class="btn btn-default">Close bank day</button>
-            }
-        </div>
-        <div class="col-md-4">
-            @using (Html.BeginForm("CloseBankMonth", "Bank", new { returnUrl = Url.Action("Index") }, FormMethod.Post))
-            {
-                <button type="submit" class="btn btn-default">Close bank month</button>
-            }
-        </div>
-        <div class="col-md-4">
-            @using (Html.BeginForm("CloseBankYear", "Bank", new { returnUrl = Url.Action("Index") }, FormMethod.Post))
-            {
-                <button type="submit" class="btn btn-default">Close bank year</button>
-            }
-        </div>
-    </div>
-</div>
     
